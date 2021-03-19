@@ -5,7 +5,7 @@
             <nav>
                 <a v-if="user" href="javascript:void(0)">Hello, {{ user.name }}</a>
                 <router-link to="/">Home</router-link>
-                <router-link to="/company/create">Create Company</router-link>
+                <router-link v-if="user.account_type == 'Admin'" to="/company/create">Create Company</router-link>
                 <router-link v-if="!user" to="/login">Login</router-link>
                 <a v-if="user" href="javascript:void(0)"  @click="handleLogout">Logout</a>
                 <!-- <a class="btn btn-secondary dropdown-toggle nav__dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

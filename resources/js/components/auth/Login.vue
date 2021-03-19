@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 export default {
     name: 'Login',
     data() {
@@ -51,6 +52,14 @@ export default {
             } catch (e) {
                 console.log();
             }
+        }
+    },
+    computed: {
+        ...mapGetters(['user'])
+    },
+    mounted() {
+        if (this.user){
+            this.$router.push('/');
         }
     }
 }

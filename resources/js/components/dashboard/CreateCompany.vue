@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 export default {
     name: 'CreateCompany',
     data() {
@@ -97,13 +98,13 @@ export default {
             this.logo = e.target.files[0];
         }
     },
-    async created() {
-        // try {
-        //     const response = await axios.get('company');
-        //     console.log(response);
-        // } catch(e) {
-        //     console.log(e.response.data);
-        // }
+    computed: {
+        ...mapGetters(['user'])
+    },
+    mounted() {
+        if (this.user.account_type !== "Admin"){
+            this.$router.push('/');
+        }
     }
 }
 </script>
