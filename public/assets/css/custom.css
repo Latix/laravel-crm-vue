@@ -9,3 +9,15 @@
     text-align: center;
     margin-top: 20px;
 }
+
+.nav__dropdown
+{
+    background: #111111;
+    border: none;
+}
+
+.nav__dropdown:hover
+{
+    background: #111111;
+    border: none;
+}
