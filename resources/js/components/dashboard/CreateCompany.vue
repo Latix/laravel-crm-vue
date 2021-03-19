@@ -77,7 +77,10 @@ export default {
                     method: "post",
                     url: "company",
                     data: formData,
-                    headers: { "Content-Type": "multipart/form-data", "Authorization": 'Bearer ' + localStorage.getItem('token') },
+                    headers: { 
+                        "Content-Type": "multipart/form-data", 
+                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
+                    },
                 }).then((response) => {
                     console.log(response);
                     if (response.status == 201) {

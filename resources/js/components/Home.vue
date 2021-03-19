@@ -13,6 +13,9 @@
                 <header class="special">
                     <h2>Company Relationship Management</h2>
                     <p>Stay aware and in control of your company and employees.</p>
+                    <hr />
+                    <h4>Companies</h4>
+                    <p v-for="company in companies" :key="company.id">{{ company.name }}</p>
                 </header>
             </div>
         </section>
@@ -29,6 +32,16 @@
         data() {
             return {
                 image_src: '/assets/images/banner.mp4',
+                companies: []
+            }
+        },
+        async created() {
+            try {
+                const response = await axios.get('company');
+                console.log(response);
+                this.companies = response.data.data;
+            } catch (e) {
+                console.log();
             }
         }
     }

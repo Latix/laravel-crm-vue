@@ -26,8 +26,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return 'working';
-        // return BookResource::collection(Book::with('ratings')->paginate(25));
+        return CompanyResource::collection(Company::all());
     }
 
     /**
