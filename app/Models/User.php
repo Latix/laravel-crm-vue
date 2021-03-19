@@ -66,4 +66,15 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Company::class);
     }
+
+    /**
+     * Check If authenticated user is admin
+     * 
+     * return bool
+     */
+    public function isAdmin() : bool
+    {
+        # code...
+        return ($this->account_type == "Admin") ? true : false;
+    }
 }

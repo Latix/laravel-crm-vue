@@ -97,6 +97,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        if (auth('api')->user()->isAdmin())
         $company->delete();
         return response()->json(['Company deleted', 200, [
                     'companies' => CompanyResource::collection(Company::all())
