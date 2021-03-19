@@ -5,6 +5,7 @@
             <nav>
                 <a v-if="user" href="javascript:void(0)">Hello, {{ user.name }}</a>
                 <router-link to="/">Home</router-link>
+                <router-link to="/company/create">Create Company</router-link>
                 <router-link v-if="!user" to="/login">Login</router-link>
                 <a v-if="user" href="javascript:void(0)"  @click="handleLogout">Logout</a>
                 <!-- <a class="btn btn-secondary dropdown-toggle nav__dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -15,17 +16,15 @@
                     <a class="dropdown-item" href="#">Another action</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div> -->
+                <!-- <a href="javascript:void(0)" @click="toggleBodyClass('addClass', 'is-menu-visible')">Menu</a> -->
             </nav>
-            <!-- <div class="nav__menu">
-                <router-link class="nav__menu_item" to="/">Home</router-link>
-            </div> -->
         </header>
-        <!-- <nav id="menu">
+        <nav id="menu">
             <ul class="links">
                 <li><router-link class="logo" to="/">Home</router-link></li>
                 <li><router-link class="logo" to="/login">Login</router-link></li>
             </ul>
-        </nav> -->
+        </nav>
     </div>
 </template>
 
@@ -39,7 +38,7 @@
                 axios.post('auth/logout');
                 this.$store.dispatch('user', null);
                 this.$router.push('/login');
-          }
+            },
         },
         computed: {
           ...mapGetters(['user'])
