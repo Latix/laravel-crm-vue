@@ -6,19 +6,21 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <h3>Login</h3>
-                    <form method="post" action="#">
-                        <div class="row gtr-uniform">
+                    <h3 class="login__btn">Login</h3>
+                    <form>
+                        <div class="row">
                             <div class="col-12">
-                                <input type="email" class="mt--y10" name="email" id="email" value="" placeholder="Email" />
+                                <input type="email" class="mt--y10" name="email" placeholder="Email" />
                             </div>
                         </div>
-                        <div class="row gtr-uniform">
+                        <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" name="password" id="password" value="" placeholder="Password" />
+                                <input type="password" class="mt--y10" name="password" placeholder="Password" />
                             </div>
                         </div>
-                        <button class="button primary mt--y10">Login</button>
+                        <div class="login__btn">
+                            <button class="button primary mt--y10">Login</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -32,6 +34,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .inner {
+        margin: 0 auto;
+        width: 35rem;
+        max-width: calc(100% - 6rem);
+    }
 </style>
