@@ -125,7 +125,7 @@
             } catch (e) {
                 console.log();
             }
-        }
+        },
     }
 </script>
 <style scoped>

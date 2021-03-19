@@ -26,7 +26,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return CompanyResource::collection(Company::all());
+        return CompanyResource::collection(Company::orderBy('id', 'desc')->get());
     }
 
     /**
@@ -97,11 +97,15 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if (auth('api')->user()->isAdmin())
-        $company->delete();
-        return response()->json(['Company deleted', 200, [
-                    'companies' => CompanyResource::collection(Company::all())
-                ]
-        ]);
+        if (auth('api')->user()->isAdmin()):
+            $company->delete();
+
+            return response()->json(['Company deleted', 200, [
+                        'companies' => CompanyResource::collection(Company::orderBy('id', 'desc')->get())
+                    ]
+            ]);
+        endif;
+        
+        return response()->json(['Unauthorized', 400]);
     }
 }
