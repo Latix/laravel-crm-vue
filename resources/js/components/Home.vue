@@ -49,6 +49,7 @@
                         :total-rows="rows"
                         :per-page="perPage"
                         aria-controls="my-table"
+                        class="justify__content"
                         ></b-pagination>
                     </div>
                 </header>
@@ -129,10 +130,8 @@
     }
 </script>
 <style scoped>
-.page-item.active .page-link {
-    z-index: 3;
-    color: #fff !important;
-    background-color: #111111;
-    border-color: #111111;
-}
+    .justify__content
+    {
+        justify-content: flex-end;
+    }
 </style>
