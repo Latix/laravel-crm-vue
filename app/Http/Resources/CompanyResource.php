@@ -19,7 +19,8 @@ class CompanyResource extends JsonResource
             'logo'   => asset('/storage/images/companies/'.$this->logo),
             'name' => $this->name,
             'email' => $this->email,
-            'url'   => $this->url
+            'url'   => $this->url,
+            'employees' => $this->employees()
         ];
     }
 }

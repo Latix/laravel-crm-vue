@@ -15,4 +15,9 @@ class Company extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function employees()
+    {
+        return $this->users->where('account_type', 'Employee');
+    }
 }

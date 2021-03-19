@@ -33,6 +33,9 @@
                             <template #cell(logo)="data">
                                 <img :src="data.value" style="width: 50px; height: 50px" />
                             </template>
+                            <template #cell(Employees)="data">
+                                <b>{{ data.item.employees.length }}</b>
+                            </template>
                             <template #table-busy>
                                 <div class="text-center text-danger my-2">
                                 <b-spinner class="align-middle"></b-spinner>
@@ -40,8 +43,9 @@
                                 </div>
                             </template>
                             <template #cell(actions)="row">
-                                <b-icon-pencil-square class="mr-2 cr-pointer" title="Edit"></b-icon-pencil-square><span class="cr-pointer">Edit</span>&nbsp;&nbsp;
-                                <b-icon-trash class="ml-2cr-pointer" title="Delete" @click="deleteCompany(row)"></b-icon-trash><span @click="deleteCompany(row)" class="cr-pointer">Delete</span>
+                                <b-icon-pencil-square class="cr-pointer" title="Edit"></b-icon-pencil-square>&nbsp;<span class="cr-pointer">Edit</span>&nbsp;&nbsp;
+                                <b-icon-file-earmark-text-fill class="cr-pointer" title="Edit"></b-icon-file-earmark-text-fill>&nbsp;<span class="cr-pointer">Employees</span>&nbsp;&nbsp;
+                                <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteCompany(row)"></b-icon-trash>&nbsp;<span @click="deleteCompany(row)" class="cr-pointer">Delete</span>
                             </template>
                         </b-table>
                         <b-pagination
@@ -94,6 +98,11 @@
                         label: 'Url',
                         sortable: true,
                     },
+                    {
+                        key: 'Employees',
+                        label: 'Total Employees',
+                        sortable: true,
+                    },
                     'actions'
                 ],
                 companies: [],
@@ -122,6 +131,7 @@
             try {
                 const response = await axios.get('company');
                 this.companies = response.data.data;
+                console.log(this.companies);
                 this.isBusy = false;
             } catch (e) {
                 console.log();
