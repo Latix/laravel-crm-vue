@@ -16,7 +16,7 @@ class CompanyController extends Controller
     */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['index']]);
     }
 
     /**
@@ -59,8 +59,8 @@ class CompanyController extends Controller
         $company = Company::create([
             'name'        => $request->name,
             'email'       => $request->email,
-            'password'    => $request->password,
-            'logo'        => bcrypt($request->password),
+            'password'    => bcrypt($request->password),
+            'logo'        => $newLogoName,
             'url'         => $request->url,
         ]);
         return new CompanyResource($company);

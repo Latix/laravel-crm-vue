@@ -10,6 +10,11 @@ import store from './vuex';
 import VueSweetalert2 from 'vue-sweetalert2';
 window.Swal = require('sweetalert2');
 Vue.use(VueSweetalert2);
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 import utils from './helpers/utilities';
 Vue.prototype.$utils = utils;

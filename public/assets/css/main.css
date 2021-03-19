@@ -623,8 +623,8 @@ table {
   table th {
     font-size: 0.9rem;
     font-weight: 600;
-    padding: 0 0.75rem 0.75rem 0.75rem;
-    text-align: left; }
+    padding: 1rem 0.75rem 0.75rem 0.75rem;
+    text-align: center; }
   table thead {
     border-bottom: solid 2px; }
   table tfoot {
@@ -1933,18 +1933,18 @@ ul.icons {
     color: rgba(255, 255, 255, 0.4) !important; }
   #banner ul.alt li {
     border-top-color: rgba(255, 255, 255, 0.25); }
-  #banner table tbody tr {
+  /* #banner table tbody tr {
     border-color: rgba(255, 255, 255, 0.25); }
     #banner table tbody tr:nth-child(2n + 1) {
-      background-color: rgba(255, 255, 255, 0.075); }
-  #banner table th {
+      background-color: rgba(255, 255, 255, 0.075); } */
+  /* #banner table th {
     color: #ffffff; }
   #banner table thead {
     border-bottom-color: rgba(255, 255, 255, 0.25); }
   #banner table tfoot {
     border-top-color: rgba(255, 255, 255, 0.25); }
   #banner table.alt tbody tr td {
-    border-color: rgba(255, 255, 255, 0.25); }
+    border-color: rgba(255, 255, 255, 0.25); } */
   #banner .highlights .content {
     background: #111111;
     box-shadow: 0px 0px 4px 1px rgba(255, 255, 255, 0.025); }
@@ -2177,7 +2177,7 @@ ul.icons {
     color: rgba(255, 255, 255, 0.4) !important; }
   #cta ul.alt li {
     border-top-color: rgba(255, 255, 255, 0.25); }
-  #cta table tbody tr {
+  /* #cta table tbody tr {
     border-color: rgba(255, 255, 255, 0.25); }
     #cta table tbody tr:nth-child(2n + 1) {
       background-color: rgba(255, 255, 255, 0.075); }
@@ -2188,7 +2188,7 @@ ul.icons {
   #cta table tfoot {
     border-top-color: rgba(255, 255, 255, 0.25); }
   #cta table.alt tbody tr td {
-    border-color: rgba(255, 255, 255, 0.25); }
+    border-color: rgba(255, 255, 255, 0.25); } */
   #cta .highlights .content {
     background: #ce1b28;
     box-shadow: 0px 0px 4px 1px rgba(255, 255, 255, 0.025); }
@@ -2319,7 +2319,7 @@ ul.icons {
     color: rgba(255, 255, 255, 0.4) !important; }
   #footer ul.alt li {
     border-top-color: rgba(255, 255, 255, 0.25); }
-  #footer table tbody tr {
+  /* #footer table tbody tr {
     border-color: rgba(255, 255, 255, 0.25); }
     #footer table tbody tr:nth-child(2n + 1) {
       background-color: rgba(255, 255, 255, 0.075); }
@@ -2330,7 +2330,7 @@ ul.icons {
   #footer table tfoot {
     border-top-color: rgba(255, 255, 255, 0.25); }
   #footer table.alt tbody tr td {
-    border-color: rgba(255, 255, 255, 0.25); }
+    border-color: rgba(255, 255, 255, 0.25); } */
   #footer .highlights .content {
     background: #111111;
     box-shadow: 0px 0px 4px 1px rgba(255, 255, 255, 0.025); }
@@ -2621,7 +2621,7 @@ body {
     color: rgba(255, 255, 255, 0.4) !important; }
   #heading ul.alt li {
     border-top-color: rgba(255, 255, 255, 0.25); }
-  #heading table tbody tr {
+  /* #heading table tbody tr {
     border-color: rgba(255, 255, 255, 0.25); }
     #heading table tbody tr:nth-child(2n + 1) {
       background-color: rgba(255, 255, 255, 0.075); }
@@ -2632,7 +2632,7 @@ body {
   #heading table tfoot {
     border-top-color: rgba(255, 255, 255, 0.25); }
   #heading table.alt tbody tr td {
-    border-color: rgba(255, 255, 255, 0.25); }
+    border-color: rgba(255, 255, 255, 0.25); } */
   #heading .highlights .content {
     background: #111111;
     box-shadow: 0px 0px 4px 1px rgba(255, 255, 255, 0.025); }
