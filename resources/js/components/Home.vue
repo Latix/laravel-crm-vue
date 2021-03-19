@@ -30,6 +30,9 @@
                         bordered
                         responsive="sm"
                         >
+                            <template #cell(logo)="data">
+                                <img :src="data.value" style="width: 50px; height: 50px" />
+                            </template>
                             <template #table-busy>
                                 <div class="text-center text-danger my-2">
                                 <b-spinner class="align-middle"></b-spinner>
@@ -70,6 +73,11 @@
                 isBusy: true,
                 image_src: '/assets/images/banner.mp4',
                 fields: [
+                    {
+                        key: 'logo',
+                        label: 'Company Logo',
+                        sortable: false,
+                    },
                     {
                         key: 'name',
                         label: 'Company Name',

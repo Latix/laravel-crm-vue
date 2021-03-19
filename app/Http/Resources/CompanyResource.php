@@ -14,9 +14,10 @@ class CompanyResource extends JsonResource
      */
     public function toArray($request)
     {
+        http://workwise.local/storage/images/companies/b788ded6_CHCOFE416DSN.png?mod=1614093176
         return [
             'id'   => $this->id,
-            'logo'   => storage_path().'/public/images/companies'.$this->logo,
+            'logo'   => asset('/storage/images/companies/'.$this->logo),
             'name' => $this->name,
             'email' => $this->email,
             'url'   => $this->url
