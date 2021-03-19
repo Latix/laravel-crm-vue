@@ -21,3 +21,15 @@
     background: #111111;
     border: none;
 }
+
+.swal2-styled.swal2-confirm {
+    border: none !important;
+    border-radius: .25em;
+    background: initial;
+    background-color: #2778c4;
+    color: #fff !important;
+    font-size: 1.0625em;
+    margin-top: 10px;
+    text-align: center;
+    line-height: 15px;
+}

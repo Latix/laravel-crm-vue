@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
@@ -37,12 +38,33 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $book = Book::create([
-        'user_id' => $request->user()->id,
-        'title' => $request->title,
-        'description' => $request->description,
+        $validator = Validator::make(request()->all(), [
+	        'name'      => 'required',
+            'email'     => 'required|email',
+            'password'  => 'required|confirm|min:6',
+            'logo'      => 'required',
+            'url'       => 'required',
+	    ]);
+        
+        if (!request()->hasFile('logo')) {
+            return response()->json(['message' => 'Logo is required']);
+        }
+        
+        $file         = request('logo');
+        $newFileName  = uniqid()."_".now();
+        $extension    = $file->getClientOriginalExtension();
+        $newLogoName  = $newFileName.'.'.$extension;
+        $path         = $file->storeAs('public/images/companies', $newLogoName);
+        
+
+        $company = Company::create([
+            'name'        => $request->name,
+            'email'       => $request->email,
+            'password'    => $request->password,
+            'logo'        => bcrypt($request->password),
+            'url'         => $request->url,
         ]);
-        return new BookResource($book);
+        return new CompanyResource($company);
     }
 
     /**
