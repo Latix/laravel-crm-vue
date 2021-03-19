@@ -5,7 +5,7 @@ import VueRouter from 'vue-router';
 import {routes} from './routes.js';
 import App from './App.vue';
 import './axios';
-// import store from './vuex';
+import store from './vuex';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -15,6 +15,7 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
+    store,
     components: {
         App
     }

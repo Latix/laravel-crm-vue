@@ -3,8 +3,10 @@
         <header id="header">
             <router-link class="logo" to="/">Crm-Vue</router-link>
             <nav>
+                <a v-if="user" href="javascript:void(0)">Hello, {{ user.name }}</a>
                 <router-link to="/">Home</router-link>
-                <router-link to="/login">Login</router-link>
+                <router-link v-if="!user" to="/login">Login</router-link>
+                <a v-if="user" href="javascript:void(0)"  @click="handleLogout">Logout</a>
                 <!-- <a class="btn btn-secondary dropdown-toggle nav__dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Settings
                 </a>
@@ -28,7 +30,19 @@
 </template>
 
 <script>
-export default {
-    name: 'NavBar'
-}
+    import {mapGetters} from 'vuex';
+    export default {
+        name: 'NavBar',
+        methods: {
+            handleLogout() {
+                localStorage.removeItem('token');
+                axios.post('auth/logout');
+                this.$store.dispatch('user', null);
+                this.$router.push('/login');
+          }
+        },
+        computed: {
+          ...mapGetters(['user'])
+        },
+    }
 </script>

@@ -7,15 +7,15 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn">Login</h3>
-                    <form>
+                    <form @submit.prevent="handleLogin">
                         <div class="row">
                             <div class="col-12">
-                                <input type="email" class="mt--y10" name="email" placeholder="Email" />
+                                <input type="email" class="mt--y10" v-model="email" placeholder="Email" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" name="password" placeholder="Password" />
+                                <input type="password" class="mt--y10" v-model="password" placeholder="Password" />
                             </div>
                         </div>
                         <div class="login__btn">
@@ -30,7 +30,29 @@
 
 <script>
 export default {
-    name: 'Login'
+    name: 'Login',
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        async handleLogin() {
+            try {
+                const response = await axios.post('auth/login', {
+                    email: this.email,
+                    password: this.password
+                });
+                
+                localStorage.setItem('token', response.data.access_token);
+                this.$store.dispatch('user', response.data.user);
+                this.$router.push('/');
+            } catch (e) {
+                console.log();
+            }
+        }
+    }
 }
 </script>
 
