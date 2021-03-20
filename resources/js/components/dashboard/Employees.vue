@@ -6,7 +6,7 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <h3 class="login__btn">Employees</h3>
+                    <h3 class="login__btn mb__30">Employees</h3>
                     <div class="overflow-auto">
                         <b-table
                         id="my-table"
@@ -28,11 +28,17 @@
                                 <strong>Loading...</strong>
                                 </div>
                             </template>
+                            <template #cell(name)="data">
+                                <p class="text-center">{{ data.value }}</p>
+                            </template>
+                            <template #cell(email)="data">
+                                <p class="text-center">{{ data.value }}</p>
+                            </template>
                             <template #cell(CompanyName)="">
-                                <p>{{ company.name }}</p>
+                                <p class="text-center">{{ company.name }}</p>
                             </template>
                             <template #cell(actions)="row">
-                                <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span>
+                                <p class="text-center"><b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span></p>
                             </template>
                         </b-table>
                         <b-pagination
