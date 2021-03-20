@@ -37,11 +37,11 @@
                         <div class="row company__logo">
                             <div class="custom-file">
                                 <input type="file" name="image" class="custom-file-input" id="validatedCustomFile" v-on:change="saveImage">
-                                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                <label class="custom-file-label" for="validatedCustomFile">{{ !logo ? 'Choose file...' : logo.name }}</label>
                             </div>
                         </div>
                         <div class="login__btn">
-                            <button class="button primary mt--y10">Login</button>
+                            <button class="button primary mt--y10">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -83,7 +83,6 @@ export default {
                         "Authorization": 'Bearer ' + localStorage.getItem('token') 
                     },
                 }).then((response) => {
-                    console.log(response);
                     if (response.status == 201) {
                         this.$utils.showSuccess('success', "Company created!");
                     } else {
@@ -91,7 +90,6 @@ export default {
                     }
             }).catch(error => {
                 this.$utils.showError('error', "There was an error");
-                console.log();
             });
         },
         saveImage(e) {

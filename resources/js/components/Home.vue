@@ -43,7 +43,7 @@
                                 </div>
                             </template>
                             <template #cell(actions)="row">
-                                <b-icon-pencil-square class="cr-pointer" title="Edit"></b-icon-pencil-square>&nbsp;<span class="cr-pointer">Edit</span>&nbsp;&nbsp;
+                                <b-icon-pencil-square class="cr-pointer" title="Edit" @click="editCompany(row)"></b-icon-pencil-square>&nbsp;<span class="cr-pointer" @click="editCompany(row)">Edit</span>&nbsp;&nbsp;
                                 <b-icon-file-earmark-text-fill class="cr-pointer" title="Edit"></b-icon-file-earmark-text-fill>&nbsp;<span class="cr-pointer">Employees</span>&nbsp;&nbsp;
                                 <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteCompany(row)"></b-icon-trash>&nbsp;<span @click="deleteCompany(row)" class="cr-pointer">Delete</span>
                             </template>
@@ -125,17 +125,17 @@
                         type: 'error'
                     });
                 }
+            },
+            editCompany (company) {
+                this.$router.push('company/edit/'+company.item.id);
             }
         },
         async created() {
             try {
                 const response = await axios.get('company');
                 this.companies = response.data.data;
-                console.log(this.companies);
                 this.isBusy = false;
-            } catch (e) {
-                console.log();
-            }
+            } catch (e) {}
         },
     }
 </script>
