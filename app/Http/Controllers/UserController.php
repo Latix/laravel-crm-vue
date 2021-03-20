@@ -77,12 +77,33 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  User  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $validator = Validator::make(request()->all(), [
+	        'name'            => 'required',
+	    ]);
+
+        if(!empty(request('password'))) {
+            if (request('password') === request('password_confirmation'))
+            {
+                $user->update([
+                    'password' => bcrypt(request('password'))
+                ]);
+            }
+        }
+    
+        $user->update([
+            'name'        => $request->name
+        ]);
+
+        return response()->json([
+            'status'  => 200,
+            'message' => "User Updated!",
+            'user' => new UserResource($user)
+        ]);
     }
 
     /**

@@ -15,12 +15,12 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" v-model="password" placeholder="Password" />
+                                <input type="password" class="mt--y10" v-model="password" placeholder="New Password" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" v-model="password_confirm" placeholder="Password Confirmation" />
+                                <input type="password" class="mt--y10" v-model="password_confirm" placeholder="Confirm New Password" />
                             </div>
                         </div>
                         <div class="row">

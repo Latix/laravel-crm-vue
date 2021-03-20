@@ -4,6 +4,7 @@ import CreateCompany from '../js/components/dashboard/CreateCompany';
 import EditCompany from '../js/components/dashboard/EditCompany';
 import CreateEmployee from '../js/components/dashboard/CreateEmployee';
 import Employees from '../js/components/dashboard/Employees';
+import Profile from '../js/components/dashboard/Profile';
 
 export const routes = [
     {
@@ -35,5 +36,10 @@ export const routes = [
         name: '/company/employees/:company_id',
         path: '/company/employees/:company_id',
         component: Employees
+    },
+    {
+        name: '/profile',
+        path: '/profile',
+        component: Profile
     }
 ];
