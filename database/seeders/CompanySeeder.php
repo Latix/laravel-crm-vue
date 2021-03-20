@@ -13,7 +13,8 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Company::factory()->count(10)->create()->each(function ($company) {
+        \App\Models\Company::factory()->count(20)->create()->each(function ($company) {
+            $company->users()->saveMany(\App\Models\User::factory(['account_type' => 'Manager'])->count(1)->make());
             $company->users()->saveMany(\App\Models\User::factory()->count(2)->make());
         });
     }
