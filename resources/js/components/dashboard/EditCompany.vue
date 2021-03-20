@@ -30,7 +30,7 @@
                         </div>
                         <div class="row company__logo">
                             <div class="custom-file">
-                                <input type="file" name="image" class="custom-file-input" id="validatedCustomFile" v-on:change="saveImage">
+                                <input type="file" accept="image/*" name="image" class="custom-file-input" id="validatedCustomFile" v-on:change="saveImage">
                                 <label class="custom-file-label" for="validatedCustomFile">{{ !logo ? 'Choose file...' : logo.name }}</label>
                             </div>
                         </div>

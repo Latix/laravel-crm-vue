@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Company;
 use App\Service\AppHelper;
+use App\Events\DeleteCompanyEvent;
 
 class CompanyObserver
 {
@@ -38,6 +39,7 @@ class CompanyObserver
     public function deleted(Company $company)
     {
         (new AppHelper)->removeExistingFile($company->getLogo());
+        event(new DeleteCompanyEvent($company));
     }
 
     /**

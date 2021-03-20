@@ -45,7 +45,7 @@ class UserController extends Controller
 	        'name'            => 'required',
             'email'           => 'required|email',
             'account_type'    => 'required',
-            'password'        => 'required|confirm|min:6',
+            'password'        => 'required|confirm',
 	    ]);
         
         if (User::where('email', request('email'))->first())

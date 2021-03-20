@@ -41,7 +41,7 @@ class CompanyController extends Controller
         $validator = Validator::make(request()->all(), [
 	        'name'      => 'required',
             'email'     => 'required|email',
-            'password'  => 'required|confirm|min:6',
+            'password'  => 'required|confirm',
             'logo'      => 'required',
             'url'       => 'required',
 	    ]);
