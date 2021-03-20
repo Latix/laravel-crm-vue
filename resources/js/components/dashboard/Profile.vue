@@ -25,7 +25,7 @@
                         </div>
                         <div class="login__btn">
                             <button v-if="loading" class="button primary mt--y10" disabled>Submit<b-spinner class="ml-1" label="Busy"></b-spinner></button>
-                            <button v-if="!loading" class="button primary mt--y10">Submit</button>
+                            <button v-if="!loading" class="button primary mt--y10">Update</button>
                         </div>
                     </form>
                 </div>

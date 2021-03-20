@@ -79,4 +79,25 @@
 .mb__30
 {
     margin-bottom: 30px;
+} 
+
+#app .mobile__nav
+{
+    display: none;
+}
+
+#app .desktop__nav_link
+{
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    #app .desktop__nav_link {
+        display: none;
+    }
+    
+    #app .mobile__nav
+    {
+        display: inline-block;
+    }
 }

@@ -3,10 +3,16 @@
         <header id="header">
             <router-link class="logo" to="/">Crm-Vue</router-link>
             <nav>
-                <a v-if="user" href="javascript:void(0)">Hello, {{ user.name }}</a>
-                <router-link to="/">Home</router-link>
-                <!-- <b-icon-power v-if="user"  @click="handleLogout">Logout</b-icon-power> -->
-                <b-button v-b-toggle.sidebar-variant class="toggle__MenuButton">Menu</b-button>
+                <a v-if="user" href="javascript:void(0)">Hello {{ user.name }},</a>
+                <router-link class="desktop__nav_link" to="/">Home</router-link>
+                <router-link class="desktop__nav_link" to="/">Companies</router-link>
+                <router-link class="desktop__nav_link" v-if="user && user.account_type == 'Admin'" to="/company/create">Create Company</router-link>
+                <router-link class="desktop__nav_link" v-if="user && user.account_type == 'Admin'" to="/employee/create">Create Employee</router-link>
+                <router-link class="desktop__nav_link" v-if="user && user.account_type == 'Manager'" :to="'/company/employees/'+user.company_id">Employees</router-link>
+                <router-link class="desktop__nav_link" v-if="user" to="/profile">Profile</router-link>
+                <router-link v-if="!user" to="/login">Login</router-link>
+                <router-link v-if="user" href="javascript:void(0)" @click="handleLogout">Logout</router-link>
+                <b-button v-b-toggle.sidebar-variant class="toggle__MenuButton mobile__nav">Menu</b-button>
                 <b-sidebar id="sidebar-variant" title="Crm-Vue" bg-variant="dark" text-variant="light" shadow>
                 <div class="py-2">
                     <nav class="mb-3">
