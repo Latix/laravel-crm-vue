@@ -100,23 +100,22 @@ export default {
         }
     },
     methods: {
-        async deleteCompany (company) {
+        deleteCompany (company) {
             this.isBusy = true;
-            try {
-                const response = await axios.delete('company/'+company.item.id);
+            axios.delete('company/'+company.item.id).then((response) => {
                 Vue.$toast.open({
                     message: company.item.name + ' has been deleted!',
                     type: 'success'
                 });
                 this.companies = response.data[2].companies;
                 this.isBusy = false;
-            } catch(error) {
+            }).catch((err) => {
                 Vue.$toast.open({
                     message: 'An error occured!',
                     type: 'error'
                 });
                 this.isBusy = false;
-            }
+            });
         },
         editCompany (company) {
             this.$router.push('company/edit/'+company.item.id);
