@@ -106,11 +106,12 @@ export default {
             this.logo = e.target.files[0];
         }
     },
-    async created() {
-        const response = await axios.get('company/'+this.id);
-        var company    = response.data.data;
-        this.name      = company.name;
-        this.url       = company.url;
+    created() {
+        axios.get('company/'+this.id).then((response) => {
+            var company    = response.data.data;
+            this.name      = company.name;
+            this.url       = company.url;
+        });
     },
     computed: {
         ...mapGetters(['user']),

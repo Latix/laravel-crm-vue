@@ -111,14 +111,13 @@ export default {
         },
         ...mapGetters(['user'])
     },
-    async created() {
-        try {
-            const response = await axios.get('company/'+this.company_id);
-            const result   = response.data.data;
-            this.employees = result.employees;
-            this.company   = result;
-            this.isBusy = false;
-        } catch (e) {}
+    created() {
+            axios.get('company/'+this.company_id).then((response) => {
+                const result   = response.data.data;
+                this.employees = result.employees;
+                this.company   = result;
+                this.isBusy = false;
+            });
     },
     mounted() {
         if (!this.user){
