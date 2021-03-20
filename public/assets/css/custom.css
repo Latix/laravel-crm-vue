@@ -49,3 +49,29 @@
     border-radius: 50%;
     animation: .75s linear infinite spinner-border;
 }
+
+#app .toggle__MenuButton
+{
+    background: transparent !important;
+    margin-right: 15px;
+}
+
+#app .b-sidebar-header strong
+{
+    color: #fff !important;
+}
+
+.nav-item a
+{
+    color: #fff !important;
+}
+
+.nav-item a:hover
+{
+    opacity: .5 !important;
+}
+
+.nav-item:hover
+{
+    background: #61656b;
+}

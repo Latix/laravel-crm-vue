@@ -5,26 +5,22 @@
             <nav>
                 <a v-if="user" href="javascript:void(0)">Hello, {{ user.name }}</a>
                 <router-link to="/">Home</router-link>
-                <router-link v-if="user && user.account_type == 'Admin'" to="/company/create">Create Company</router-link>
-                <router-link v-if="!user" to="/login">Login</router-link>
-                <a v-if="user" href="javascript:void(0)"  @click="handleLogout">Logout</a>
-                <!-- <a class="btn btn-secondary dropdown-toggle nav__dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Settings
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div> -->
-                <!-- <a href="javascript:void(0)" @click="toggleBodyClass('addClass', 'is-menu-visible')">Menu</a> -->
+                <!-- <b-icon-power v-if="user"  @click="handleLogout">Logout</b-icon-power> -->
+                <b-button v-b-toggle.sidebar-variant class="toggle__MenuButton">Menu</b-button>
+                <b-sidebar id="sidebar-variant" title="Crm-Vue" bg-variant="dark" text-variant="light" shadow>
+                <div class="py-2">
+                    <nav class="mb-3">
+                        <b-nav vertical>
+                            <b-nav-item to="/">Home</b-nav-item>
+                            <b-nav-item v-if="user && user.account_type == 'Admin'" to="/company/create">Create Company</b-nav-item>
+                            <b-nav-item v-if="!user" to="/login">Login</b-nav-item>
+                            <b-nav-item v-if="user" href="javascript:void(0)"  @click="handleLogout">Logout</b-nav-item>
+                        </b-nav>
+                    </nav>
+                </div>
+                </b-sidebar>
             </nav>
         </header>
-        <nav id="menu">
-            <ul class="links">
-                <li><router-link class="logo" to="/">Home</router-link></li>
-                <li><router-link class="logo" to="/login">Login</router-link></li>
-            </ul>
-        </nav>
     </div>
 </template>
 
