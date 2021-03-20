@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Service\AppHelper;
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
 use Illuminate\Support\Facades\Validator;
@@ -49,18 +50,16 @@ class CompanyController extends Controller
             return response()->json(['message' => 'Logo is required']);
         }
         
-        $file         = request('logo');
-        $newFileName  = uniqid()."_".now();
-        $extension    = $file->getClientOriginalExtension();
-        $newLogoName  = $newFileName.'.'.$extension;
-        $path         = $file->storeAs('public/images/companies', $newLogoName);
-        
+        $file              = request('logo');
+        $file_path         = 'public/images/companies';
+
+        $logoName          = (new AppHelper)->handleFileUpload($file, $file_path);
 
         $company = Company::create([
             'name'        => $request->name,
             'email'       => $request->email,
             'password'    => bcrypt($request->password),
-            'logo'        => $newLogoName,
+            'logo'        => $logoName,
             'url'         => $request->url,
         ]);
         return new CompanyResource($company);
@@ -91,25 +90,27 @@ class CompanyController extends Controller
             'url'       => 'required',
 	    ]);
         
-        if (!request()->hasFile('logo')) {
-            return response()->json(['message' => 'Logo is required']);
-        }
+        // if (!request()->hasFile('logo')) {
+        //     return response()->json(['message' => 'Logo is required']);
+        // }
         
-        $file         = request('logo');
-        $newFileName  = uniqid()."_".now();
-        $extension    = $file->getClientOriginalExtension();
-        $newLogoName  = $newFileName.'.'.$extension;
-        $path         = $file->storeAs('public/images/companies', $newLogoName);
+        // $file         = request('logo');
+        // $newFileName  = uniqid()."_".now();
+        // $extension    = $file->getClientOriginalExtension();
+        // $newLogoName  = $newFileName.'.'.$extension;
+        // $path         = $file->storeAs('public/images/companies', $newLogoName);
         
 
-        $company = Company::create([
+        $company->update([
             'name'        => $request->name,
-            'email'       => $request->email,
-            'password'    => bcrypt($request->password),
-            'logo'        => $newLogoName,
             'url'         => $request->url,
         ]);
-        return new CompanyResource($company);
+
+        return response()->json([
+            'status'  => 200,
+            'message' => "Company Updated!",
+            'company' => new CompanyResource($company)
+        ]);
     }
 
     /**

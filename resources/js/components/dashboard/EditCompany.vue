@@ -7,10 +7,10 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn">Edit Company</h3>
-                    <form  enctype="multipart/form-data">
+                    <form @submit.prevent="handleUpdateCompany" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" :value="name"/>
+                                <input type="text" class="mt--y10" :value="name" required />
                             </div>
                         </div>
                         <div class="row">
@@ -25,7 +25,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" v-model="url" placeholder="Url" />
+                                <input type="text" class="mt--y10" v-model="url" placeholder="Url" required />
                             </div>
                         </div>
                         <div class="row company__logo">
@@ -35,7 +35,8 @@
                             </div>
                         </div>
                         <div class="login__btn">
-                            <button class="button primary mt--y10">Update</button>
+                            <button v-if="loading" class="button primary mt--y10" disabled>Update<b-spinner class="ml-1" label="Busy"></b-spinner></button>
+                            <button v-if="!loading" class="button primary mt--y10">Update</button>
                         </div>
                     </form>
                 </div>
@@ -54,10 +55,58 @@ export default {
             password: '',
             password_confirm: '',
             url: '',
-            logo: ''
+            logo: '',
+            loading: false
         }
     },
     methods: {
+        handleCreateCompany() {
+            this.loading = true;
+            let formData = new FormData();
+            formData.append('name', this.name);
+            formData.append('email', this.email);
+            formData.append('password', this.password);
+            formData.append('password_confirmation', this.password_confirm);
+            formData.append('url', this.url);
+            formData.append('logo', this.logo);
+
+                axios({
+                    method: "post",
+                    url: "company",
+                    data: formData,
+                    headers: { 
+                        "Content-Type": "multipart/form-data", 
+                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
+                    },
+                }).then((response) => {
+                    if (response.status == 201) {
+                        Vue.$toast.open({
+                            message: 'Company created',
+                            type: 'success'
+                        });
+
+                        this.name               = '';
+                        this.email              = '';
+                        this.password           = '';
+                        this.password_confirm   = '';
+                        this.url                = '';
+                        this.logo               = '';
+                    } else {
+                        Vue.$toast.open({
+                            message: 'Company not created, try again!',
+                            type: 'error'
+                        });
+                    }
+
+                this.loading = false;
+            }).catch(error => {
+                Vue.$toast.open({
+                    message: 'Company not created, try again!',
+                    type: 'error'
+                });
+                this.loading = false;
+            });
+        },
         saveImage(e) {
             this.logo = e.target.files[0];
         }

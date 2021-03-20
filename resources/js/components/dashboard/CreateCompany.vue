@@ -6,7 +6,6 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <!-- <div class="alert alert-success">Company created</div> -->
                     <h3 class="login__btn">Create Company</h3>
                     <form @submit.prevent="handleCreateCompany" enctype="multipart/form-data">
                         <div class="row">
