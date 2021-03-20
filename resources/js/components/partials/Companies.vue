@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <h4>Companies</h4>
         <div class="overflow-auto">
             <b-table

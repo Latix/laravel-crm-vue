@@ -8,41 +8,41 @@
                 <div class="content">
                     <h3 class="login__btn">Employees</h3>
                     <div class="overflow-auto">
-            <b-table
-            id="my-table"
-            :busy="isBusy"
-            :items="companies.employees"
-            :per-page="perPage"
-            :current-page="currentPage"
-            :fields="fields"
-            large
-            striped
-            hover
-            outlined
-            bordered
-            responsive="sm"
-            >
-                <template #table-busy>
-                    <div class="text-center text-danger my-2">
-                    <b-spinner class="align-middle"></b-spinner>
-                    <strong>Loading...</strong>
+                        <b-table
+                        id="my-table"
+                        :busy="isBusy"
+                        :items="companies.employees"
+                        :per-page="perPage"
+                        :current-page="currentPage"
+                        :fields="fields"
+                        large
+                        striped
+                        hover
+                        outlined
+                        bordered
+                        responsive="sm"
+                        >
+                            <template #table-busy>
+                                <div class="text-center text-danger my-2">
+                                <b-spinner class="align-middle"></b-spinner>
+                                <strong>Loading...</strong>
+                                </div>
+                            </template>
+                            <template #cell(CompanyName)="">
+                                <p>{{ companies.name }}</p>
+                            </template>
+                            <template #cell(actions)="row">
+                                <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span>
+                            </template>
+                        </b-table>
+                        <b-pagination
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        aria-controls="my-table"
+                        class="justify__content"
+                        ></b-pagination>
                     </div>
-                </template>
-                <template #cell(CompanyName)="">
-                    <p>{{ companies.name }}</p>
-                </template>
-                <template #cell(actions)="row">
-                    <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span>
-                </template>
-            </b-table>
-            <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-            class="justify__content"
-            ></b-pagination>
-        </div>
                 </div>
             </div>
         </section>
