@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // \App\Models\Company::factory(10)->create();
+        // $companies = \App\Models\Company::factory()->count(10)->make();
+        $this->call([CompanySeeder::class]);
     }
 }
