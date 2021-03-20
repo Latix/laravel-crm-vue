@@ -20,7 +20,7 @@
                     <b-avatar variant="secondary" :src="data.value"></b-avatar>
                 </template>
                 <template #cell(Employees)="data">
-                    <b>{{ data.item.employees.length }}</b>
+                    <b>{{ Object.keys(data.item.employees).length }}</b>
                 </template>
                 <template #table-busy>
                     <div class="text-center text-danger my-2">
