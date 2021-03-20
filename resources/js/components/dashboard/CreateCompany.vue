@@ -11,22 +11,22 @@
                     <form @submit.prevent="handleCreateCompany" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" v-model="name"  placeholder="Name" />
+                                <input type="text" class="mt--y10" v-model="name"  placeholder="Name" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="email" class="mt--y10" v-model="email" placeholder="Email" />
+                                <input type="email" class="mt--y10" v-model="email" placeholder="Email" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" v-model="password" placeholder="Password" />
+                                <input type="password" class="mt--y10" v-model="password" placeholder="Password" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" v-model="password_confirm" placeholder="Password Confirmation" />
+                                <input type="password" class="mt--y10" v-model="password_confirm" placeholder="Password Confirmation" required />
                             </div>
                         </div>
                         <div class="row">
@@ -41,7 +41,8 @@
                             </div>
                         </div>
                         <div class="login__btn">
-                            <button class="button primary mt--y10">Submit</button>
+                            <button v-if="loading" class="button primary mt--y10" disabled>Submit<b-spinner class="ml-1" label="Busy"></b-spinner></button>
+                            <button v-if="!loading" class="button primary mt--y10">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import {mapGetters} from 'vuex';
 export default {
     name: 'CreateCompany',
@@ -61,11 +63,13 @@ export default {
             password: '',
             password_confirm: '',
             url: '',
-            logo: ''
+            logo: '',
+            loading: false
         }
     },
     methods: {
         handleCreateCompany() {
+            this.loading = true;
             let formData = new FormData();
             formData.append('name', this.name);
             formData.append('email', this.email);
@@ -84,12 +88,31 @@ export default {
                     },
                 }).then((response) => {
                     if (response.status == 201) {
-                        this.$utils.showSuccess('success', "Company created!");
+                        Vue.$toast.open({
+                            message: 'Company created',
+                            type: 'success'
+                        });
+
+                        this.name               = '';
+                        this.email              = '';
+                        this.password           = '';
+                        this.password_confirm   = '';
+                        this.url                = '';
+                        this.logo               = '';
                     } else {
-                        this.$utils.showError('error', "Company not created!");
+                        Vue.$toast.open({
+                            message: 'Company not created, try again!',
+                            type: 'error'
+                        });
                     }
+
+                this.loading = false;
             }).catch(error => {
-                this.$utils.showError('error', "There was an error");
+                Vue.$toast.open({
+                    message: 'Company not created, try again!',
+                    type: 'error'
+                });
+                this.loading = false;
             });
         },
         saveImage(e) {

@@ -17,7 +17,7 @@
             responsive="sm"
             >
                 <template #cell(logo)="data">
-                    <img :src="data.value" style="width: 50px; height: 50px" />
+                    <b-avatar variant="secondary" :src="data.value"></b-avatar>
                 </template>
                 <template #cell(Employees)="data">
                     <b>{{ data.item.employees.length }}</b>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
     name: 'Companies',
     computed: {
