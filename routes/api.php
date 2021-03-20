@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,4 @@ Route::prefix('auth')->group(function()
 });
 
 Route::apiResource('company', CompanyController::class);
+Route::apiResource('user', UserController::class);
