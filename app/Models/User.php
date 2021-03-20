@@ -62,6 +62,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    /**
+     * This method returns a the company associated with the employee
+     * 
+     * @return object
+     */
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -74,7 +79,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function isAdmin() : bool
     {
-        # code...
         return ($this->account_type == "Admin") ? true : false;
     }
 }

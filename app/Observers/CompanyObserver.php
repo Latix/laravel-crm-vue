@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Company;
+use App\Service\AppHelper;
 
 class CompanyObserver
 {
@@ -36,9 +37,7 @@ class CompanyObserver
      */
     public function deleted(Company $company)
     {
-        $logo = '/storage/images/companies/'.$company->logo;
-        if (checkFile($logo))
-            unlink(public_path($logo));
+        (new AppHelper)->removeExistingFile($company->getLogo());
     }
 
     /**

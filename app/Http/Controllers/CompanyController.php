@@ -81,12 +81,35 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Company $company)
     {
-        //
+        $validator = Validator::make(request()->all(), [
+	        'name'      => 'required',
+            'url'       => 'required',
+	    ]);
+        
+        if (!request()->hasFile('logo')) {
+            return response()->json(['message' => 'Logo is required']);
+        }
+        
+        $file         = request('logo');
+        $newFileName  = uniqid()."_".now();
+        $extension    = $file->getClientOriginalExtension();
+        $newLogoName  = $newFileName.'.'.$extension;
+        $path         = $file->storeAs('public/images/companies', $newLogoName);
+        
+
+        $company = Company::create([
+            'name'        => $request->name,
+            'email'       => $request->email,
+            'password'    => bcrypt($request->password),
+            'logo'        => $newLogoName,
+            'url'         => $request->url,
+        ]);
+        return new CompanyResource($company);
     }
 
     /**

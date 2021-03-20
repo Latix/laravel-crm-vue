@@ -15,11 +15,11 @@ class CompanyResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'   => $this->id,
-            'logo'   => asset('/storage/images/companies/'.$this->logo),
-            'name' => $this->name,
-            'email' => $this->email,
-            'url'   => $this->url,
+            'id'        => $this->id,
+            'logo'      => $this->getLogo(TRUE),
+            'name'      => $this->name,
+            'email'     => $this->email,
+            'url'       => $this->url,
             'employees' => $this->employees()
         ];
     }
