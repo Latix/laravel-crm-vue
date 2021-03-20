@@ -109,11 +109,19 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        if (!auth('api')->user()->isAdmin())
+            return response()->json(['status' => 400, 'message' => 'Unauthorized']);
+
+        $user->delete();
+
+        return response()->json(['User deleted', 200, [
+                    'employees' => UserResource::collection(User::where('account_type', 'Employee')->orderBy('id', 'desc')->get())
+                ]
+        ]);
     }
 }

@@ -92,6 +92,7 @@ export default {
     },
     methods: {
         async deleteCompany (company) {
+            this.isBusy = true;
             try {
                 const response = await axios.delete('company/'+company.item.id);
                 Vue.$toast.open({
@@ -99,11 +100,13 @@ export default {
                     type: 'success'
                 });
                 this.companies = response.data[2].companies;
+                this.isBusy = false;
             } catch(error) {
                 Vue.$toast.open({
                     message: 'An error occured!',
                     type: 'error'
                 });
+                this.isBusy = false;
             }
         },
         editCompany (company) {

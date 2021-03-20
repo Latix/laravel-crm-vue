@@ -11,7 +11,7 @@
                         <b-table
                         id="my-table"
                         :busy="isBusy"
-                        :items="companies.employees"
+                        :items="employees"
                         :per-page="perPage"
                         :current-page="currentPage"
                         :fields="fields"
@@ -29,7 +29,7 @@
                                 </div>
                             </template>
                             <template #cell(CompanyName)="">
-                                <p>{{ companies.name }}</p>
+                                <p>{{ company.name }}</p>
                             </template>
                             <template #cell(actions)="row">
                                 <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span>
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+import Vue from 'vue';
 export default {
     name: 'Employees',
     data() {
@@ -62,42 +64,65 @@ export default {
                     label: 'Employee Name',
                     sortable: true,
                 },
+                {
+                    key: 'email',
+                    label: 'Email',
+                    sortable: true,
+                },
                 'CompanyName',
                 'actions'
             ],
-            companies: [],
+            employees: [],
+            company: '',
             perPage: 5,
             currentPage: 1
         }
     },
     methods: {
-        // async deleteEmployee (employee) {
-        //     try {
-        //         const response = await axios.delete('company/'+company.item.id);
-        //         Vue.$toast.open({
-        //             message: company.item.name + ' has been deleted!',
-        //             type: 'success'
-        //         });
-        //         this.employees = response.data[2].companies;
-        //     } catch(error) {
-        //         Vue.$toast.open({
-        //             message: 'An error occured!',
-        //             type: 'error'
-        //         });
-        //     }
-        // }
+        async deleteEmployee (employee) {
+            this.isBusy = true;
+            try {
+                const response = await axios.delete('user/'+employee.item.id);
+                Vue.$toast.open({
+                    message: employee.item.name + ' has been deleted!',
+                    type: 'success'
+                });
+                this.employees = response.data[2].employees;
+                this.isBusy = false;
+            } catch(error) {
+                Vue.$toast.open({
+                    message: 'An error occured!',
+                    type: 'error'
+                });
+                this.isBusy = false;
+            }
+        }
     },
     computed: {
         rows() {
-            return this.companies.length
-        }
+            return this.employees.length
+        },
+        ...mapGetters(['user'])
     },
     async created() {
         try {
             const response = await axios.get('company/'+this.company_id);
-            this.companies = response.data.data;
+            const result   = response.data.data;
+            this.employees = result.employees;
+            this.company   = result;
             this.isBusy = false;
         } catch (e) {}
     },
+    mounted() {
+        if (this.user.account_type == "Manager"){
+            if (this.company_id !== this.user.company_id){
+                this.$router.push('/');
+            }
+        }
+
+        if (this.user.account_type == "Employee"){
+            this.$router.push('/');
+        }
+    }
 }
 </script>

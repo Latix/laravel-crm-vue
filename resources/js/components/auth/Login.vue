@@ -49,7 +49,6 @@ export default {
                     email: this.email,
                     password: this.password
                 });
-
                 if (response.status == 200) {
                     localStorage.setItem('token', response.data.access_token);
                     this.$store.dispatch('user', response.data.user);
