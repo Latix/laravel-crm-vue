@@ -133,6 +133,10 @@ export default {
         } catch (e) {}
     },
     mounted() {
+        if (!this.user){
+            this.$router.push('/login');
+        }
+
         if (this.user.account_type !== "Admin"){
             this.$router.push('/');
         }

@@ -101,6 +101,10 @@ export default {
         ...mapGetters(['user'])
     },
     mounted() {
+        if (!this.user){
+            this.$router.push('/login');
+        }
+        
         this.name = this.user.name;
         if (!this.user){
             this.$router.push('/');

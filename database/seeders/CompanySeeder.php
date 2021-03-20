@@ -14,7 +14,7 @@ class CompanySeeder extends Seeder
     public function run()
     {
         \App\Models\Company::factory()->count(10)->create()->each(function ($company) {
-            $company->users()->saveMany(\App\Models\User::factory()->count(10)->make());
+            $company->users()->saveMany(\App\Models\User::factory()->count(2)->make());
         });
     }
 }

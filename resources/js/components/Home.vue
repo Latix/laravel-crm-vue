@@ -14,7 +14,7 @@
                     <h2>Company Relationship Management</h2>
                     <p>Stay aware and in control of your company and employees.</p>
                     <hr />
-                    <Companies />
+                    <Companies :user="user" />
                 </header>
             </div>
         </section>

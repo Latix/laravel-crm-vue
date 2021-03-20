@@ -38,7 +38,8 @@
                                 <p class="text-center">{{ company.name }}</p>
                             </template>
                             <template #cell(actions)="row">
-                                <p class="text-center"><b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span></p>
+                                <p v-if="user.account_type == 'Admin'" class="text-center"><b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span></p>
+                                <p v-else>...</p>
                             </template>
                         </b-table>
                         <b-pagination
@@ -62,7 +63,7 @@ export default {
     name: 'Employees',
     data() {
         return {
-            company_id: this.$route.params.company_id,
+            company_id: 2,
             isBusy: true,
             fields: [
                 {
@@ -120,6 +121,10 @@ export default {
         } catch (e) {}
     },
     mounted() {
+        if (!this.user){
+            this.$router.push('/login');
+        }
+
         if (this.user.account_type == "Manager"){
             if (this.company_id !== this.user.company_id){
                 this.$router.push('/');

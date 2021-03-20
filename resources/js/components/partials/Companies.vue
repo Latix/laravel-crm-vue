@@ -1,47 +1,54 @@
 <template>
-    <div class="container">
-        <h4>Companies</h4>
-        <div class="overflow-auto">
-            <b-table
-            id="my-table"
-            :busy="isBusy"
-            :items="companies"
-            :per-page="perPage"
-            :current-page="currentPage"
-            :fields="fields"
-            large
-            striped
-            hover
-            outlined
-            bordered
-            responsive="sm"
-            >
-                <template #cell(logo)="data">
-                    <b-avatar variant="secondary" :src="data.value"></b-avatar>
-                </template>
-                <template #cell(Employees)="data">
-                    <b>{{ data.item.employees.length }}</b>
-                </template>
-                <template #table-busy>
-                    <div class="text-center text-danger my-2">
-                    <b-spinner class="align-middle"></b-spinner>
-                    <strong>Loading...</strong>
+    <div>
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <div class="content">
+                    <h3 class="login__btn mb__30">Companies</h3>
+                    <div class="overflow-auto">
+                        <b-table
+                            id="my-table"
+                            :busy="isBusy"
+                            :items="companies"
+                            :per-page="perPage"
+                            :current-page="currentPage"
+                            :fields="fields"
+                            large
+                            striped
+                            hover
+                            outlined
+                            bordered
+                            responsive="sm"
+                            >
+                                <template #cell(logo)="data">
+                                    <b-avatar variant="secondary" :src="data.value"></b-avatar>
+                                </template>
+                                <template #cell(Employees)="data">
+                                    <b>{{ data.item.employees.length }}</b>
+                                </template>
+                                <template #table-busy>
+                                    <div class="text-center text-danger my-2">
+                                    <b-spinner class="align-middle"></b-spinner>
+                                    <strong>Loading...</strong>
+                                    </div>
+                                </template>
+                                <template #cell(actions)="row">
+                                    <b-icon-pencil-square v-if="user && user.account_type == 'Admin'" class="cr-pointer" title="Edit" @click="editCompany(row)"></b-icon-pencil-square>&nbsp;<span v-if="user && user.account_type == 'Admin'" class="cr-pointer" @click="editCompany(row)">Edit</span>&nbsp;&nbsp;
+                                    <b-icon-file-earmark-text-fill v-if="user && user.account_type == 'Admin'" class="cr-pointer" title="Edit" @click="viewEmployees(row)"></b-icon-file-earmark-text-fill>&nbsp;<span v-if="user && user.account_type == 'Admin'" @click="viewEmployees(row)" class="cr-pointer">Employees</span>&nbsp;&nbsp;
+                                    <b-icon-trash class="ml-2 cr-pointer" v-if="user && user.account_type == 'Admin'" title="Delete" @click="deleteCompany(row)"></b-icon-trash>
+                                    <p v-else>...</p>
+                                </template>
+                            </b-table>
+                            <b-pagination
+                            v-model="currentPage"
+                            :total-rows="rows"
+                            :per-page="perPage"
+                            aria-controls="my-table"
+                            class="justify__content"
+                            ></b-pagination>
                     </div>
-                </template>
-                <template #cell(actions)="row">
-                    <b-icon-pencil-square class="cr-pointer" title="Edit" @click="editCompany(row)"></b-icon-pencil-square>&nbsp;<span class="cr-pointer" @click="editCompany(row)">Edit</span>&nbsp;&nbsp;
-                    <b-icon-file-earmark-text-fill class="cr-pointer" title="Edit" @click="viewEmployees(row)"></b-icon-file-earmark-text-fill>&nbsp;<span @click="viewEmployees(row)" class="cr-pointer">Employees</span>&nbsp;&nbsp;
-                    <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteCompany(row)"></b-icon-trash>&nbsp;<span @click="deleteCompany(row)" class="cr-pointer">Delete</span>
-                </template>
-            </b-table>
-            <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-            class="justify__content"
-            ></b-pagination>
-        </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -49,6 +56,7 @@
 import Vue from 'vue';
 export default {
     name: 'Companies',
+    props: ['user'],
     computed: {
         rows() {
             return this.companies.length
