@@ -130,6 +130,7 @@ export default {
             const response = await axios.get('company');
             this.companies = response.data.data;
             this.isBusy = false;
+            console.log(process.env.APP_URL);
         } catch (e) {}
     },
 }
