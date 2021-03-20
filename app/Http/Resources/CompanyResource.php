@@ -20,7 +20,7 @@ class CompanyResource extends JsonResource
             'name'      => ucfirst($this->name),
             'email'     => $this->email,
             'url'       => $this->url,
-            'employees' => $this->employees()
+            'employees' => $this->employees()->toArray()
         ];
     }
 }

@@ -20,7 +20,7 @@
                     <b-avatar variant="secondary" :src="data.value"></b-avatar>
                 </template>
                 <template #cell(Employees)="data">
-                    <b>{{ Object.keys(data.item.employees).length }}</b>
+                    <b>{{ data.item.employees.length }}</b>
                 </template>
                 <template #table-busy>
                     <div class="text-center text-danger my-2">
@@ -30,7 +30,7 @@
                 </template>
                 <template #cell(actions)="row">
                     <b-icon-pencil-square class="cr-pointer" title="Edit" @click="editCompany(row)"></b-icon-pencil-square>&nbsp;<span class="cr-pointer" @click="editCompany(row)">Edit</span>&nbsp;&nbsp;
-                    <b-icon-file-earmark-text-fill class="cr-pointer" title="Edit"></b-icon-file-earmark-text-fill>&nbsp;<span class="cr-pointer">Employees</span>&nbsp;&nbsp;
+                    <b-icon-file-earmark-text-fill class="cr-pointer" title="Edit" @click="viewEmployees(row)"></b-icon-file-earmark-text-fill>&nbsp;<span @click="viewEmployees(row)" class="cr-pointer">Employees</span>&nbsp;&nbsp;
                     <b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteCompany(row)"></b-icon-trash>&nbsp;<span @click="deleteCompany(row)" class="cr-pointer">Delete</span>
                 </template>
             </b-table>
@@ -108,6 +108,9 @@ export default {
         },
         editCompany (company) {
             this.$router.push('company/edit/'+company.item.id);
+        },
+        viewEmployees (company) {
+            this.$router.push('company/employees/'+company.item.id);
         }
     },
     async created() {
