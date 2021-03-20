@@ -110,6 +110,11 @@ export default {
         var company    = response.data.data;
         this.name      = company.name;
         this.url       = company.url;
+    },
+    mounted() {
+        if (this.user.account_type !== "Admin"){
+            this.$router.push('/');
+        }
     }
 }
 </script>

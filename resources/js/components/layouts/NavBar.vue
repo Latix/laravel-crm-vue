@@ -13,6 +13,8 @@
                         <b-nav vertical>
                             <b-nav-item to="/">Home</b-nav-item>
                             <b-nav-item v-if="user && user.account_type == 'Admin'" to="/company/create">Create Company</b-nav-item>
+                            <b-nav-item v-if="user && user.account_type == 'Admin'" to="/employee/create">Create Employee</b-nav-item>
+                            <b-nav-item v-if="user && user.account_type == 'Admin'" to="/employee/create">Employees</b-nav-item>
                             <b-nav-item v-if="!user" to="/login">Login</b-nav-item>
                             <b-nav-item v-if="user" href="javascript:void(0)"  @click="handleLogout">Logout</b-nav-item>
                         </b-nav>

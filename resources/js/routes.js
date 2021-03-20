@@ -2,6 +2,7 @@ import Home from '../js/components/Home';
 import Login from '../js/components/auth/Login';
 import CreateCompany from '../js/components/dashboard/CreateCompany';
 import EditCompany from '../js/components/dashboard/EditCompany';
+import CreateEmployee from '../js/components/dashboard/CreateEmployee';
 
 export const routes = [
     {
@@ -23,5 +24,10 @@ export const routes = [
         name: '/company/edit/:id',
         path: '/company/edit/:id',
         component: EditCompany
+    },
+    {
+        name: '/employee/create',
+        path: '/employee/create',
+        component: CreateEmployee
     }
 ];
