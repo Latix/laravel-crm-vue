@@ -32,9 +32,11 @@
                                     </div>
                                 </template>
                                 <template #cell(actions)="row">
-                                    <b-icon-pencil-square v-if="user && user.account_type == 'Admin'" class="cr-pointer" title="Edit" @click="editCompany(row)"></b-icon-pencil-square>&nbsp;<span v-if="user && user.account_type == 'Admin'" class="cr-pointer" @click="editCompany(row)">Edit</span>&nbsp;&nbsp;
-                                    <b-icon-file-earmark-text-fill v-if="user && user.account_type == 'Admin'" class="cr-pointer" title="Edit" @click="viewEmployees(row)"></b-icon-file-earmark-text-fill>&nbsp;<span v-if="user && user.account_type == 'Admin'" @click="viewEmployees(row)" class="cr-pointer">Employees</span>&nbsp;&nbsp;
-                                    <b-icon-trash class="ml-2 cr-pointer" v-if="user && user.account_type == 'Admin'" title="Delete" @click="deleteCompany(row)"></b-icon-trash>
+                                    <b-dropdown v-if="user && user.account_type == 'Admin'" id="dropdown-1" text="Actions" class="m-md-2">
+                                        <b-dropdown-item  @click="editCompany(row)">Edit Company</b-dropdown-item>
+                                        <b-dropdown-item  @click="viewEmployees(row)">View Employees</b-dropdown-item>
+                                        <b-dropdown-item  @click="deleteCompany(row)">Delete Company</b-dropdown-item>
+                                    </b-dropdown>
                                     <p v-else>...</p>
                                 </template>
                             </b-table>
