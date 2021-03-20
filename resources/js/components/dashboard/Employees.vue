@@ -63,7 +63,7 @@ export default {
     name: 'Employees',
     data() {
         return {
-            company_id: 2,
+            company_id: this.$route.params.company_id,
             isBusy: true,
             fields: [
                 {
