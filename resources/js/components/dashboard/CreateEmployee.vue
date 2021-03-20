@@ -7,7 +7,7 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn">Create Employee</h3>
-                    <form @submit.prevent="handleCreateCompany" enctype="multipart/form-data">
+                    <form @submit.prevent="handleCreateCompany">
                         <div class="row">
                             <div class="col-12">
                                 <input type="text" class="mt--y10" v-model="name"  placeholder="Name" required />
@@ -73,39 +73,49 @@ export default {
         handleCreateCompany() {
             this.loading = true;
             let formData = new FormData();
+            formData.append('company_id', this.selected_company);
             formData.append('name', this.name);
             formData.append('email', this.email);
+            formData.append('account_type', this.selected_account_type);
             formData.append('password', this.password);
             formData.append('password_confirmation', this.password_confirm);
 
                 axios({
                     method: "post",
-                    url: "company",
+                    url: "user",
                     data: formData,
                     headers: { 
-                        "Content-Type": "multipart/form-data", 
                         "Authorization": 'Bearer ' + localStorage.getItem('token') 
                     },
                 }).then((response) => {
-                    if (response.status == 201) {
+                    if (this.password !== this.password_confirm){
                         Vue.$toast.open({
-                            message: 'User created',
-                            type: 'success'
-                        });
-
-                        this.name               = '';
-                        this.email              = '';
-                        this.password           = '';
-                        this.password_confirm   = '';
-                    } else {
-                        Vue.$toast.open({
-                            message: 'User not created, try again!',
+                            message: 'Password mismatch!',
                             type: 'error'
                         });
+                    } else {
+                        if (response.status == 201) {
+                            Vue.$toast.open({
+                                message: 'User created',
+                                type: 'success'
+                            });
+
+                            this.name               = '';
+                            this.email              = '';
+                            this.password           = '';
+                            this.password_confirm   = '';
+                            this.selected_account_type = null;
+                        } else {
+                            Vue.$toast.open({
+                                message: response.data.message,
+                                type: 'error'
+                            });
+                        }
                     }
 
                 this.loading = false;
             }).catch(error => {
+                console.log(error.response.data);
                 Vue.$toast.open({
                     message: 'User not created, try again!',
                     type: 'error'

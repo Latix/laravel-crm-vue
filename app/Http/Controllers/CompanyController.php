@@ -131,15 +131,14 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if (auth('api')->user()->isAdmin()):
-            $company->delete();
+        if (!auth('api')->user()->isAdmin())
+            return response()->json(['status' => 400, 'message' => 'Unauthorized']);
 
-            return response()->json(['Company deleted', 200, [
-                        'companies' => CompanyResource::collection(Company::orderBy('id', 'desc')->get())
-                    ]
-            ]);
-        endif;
-        
-        return response()->json(['Unauthorized', 400]);
+        $company->delete();
+
+        return response()->json(['Company deleted', 200, [
+                    'companies' => CompanyResource::collection(Company::orderBy('id', 'desc')->get())
+                ]
+        ]);
     }
 }
