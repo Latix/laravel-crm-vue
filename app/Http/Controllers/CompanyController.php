@@ -84,26 +84,36 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Company $company)
-    {
+    {;
         $validator = Validator::make(request()->all(), [
 	        'name'      => 'required',
             'url'       => 'required',
 	    ]);
         
-        // if (!request()->hasFile('logo')) {
-        //     return response()->json(['message' => 'Logo is required']);
-        // }
-        
-        // $file         = request('logo');
-        // $newFileName  = uniqid()."_".now();
-        // $extension    = $file->getClientOriginalExtension();
-        // $newLogoName  = $newFileName.'.'.$extension;
-        // $path         = $file->storeAs('public/images/companies', $newLogoName);
-        
+        if (request()->hasFile('logo')) {
+            $file              = request('logo');
+            $file_path         = 'public/images/companies';
 
+            (new AppHelper)->removeExistingFile($company->getLogo());
+            $logoName          = (new AppHelper)->handleFileUpload($file, $file_path);
+
+            $company->update([
+                'logo'        => $logoName,
+            ]);
+        }
+
+        if(!empty(request('password'))) {
+            if (request('password') === request('password_confirmation'))
+            {
+                $company->update([
+                    'password' => bcrypt(request('password'))
+                ]);
+            }
+        }
+    
         $company->update([
             'name'        => $request->name,
-            'url'         => $request->url,
+            'url'         => $request->url
         ]);
 
         return response()->json([

@@ -10,7 +10,7 @@
                     <form @submit.prevent="handleUpdateCompany" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" :value="name" required />
+                                <input type="text" class="mt--y10" v-model="name" required />
                             </div>
                         </div>
                         <div class="row">
@@ -31,7 +31,7 @@
                         <div class="row company__logo">
                             <div class="custom-file">
                                 <input type="file" name="image" class="custom-file-input" id="validatedCustomFile" v-on:change="saveImage">
-                                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                <label class="custom-file-label" for="validatedCustomFile">{{ !logo ? 'Choose file...' : logo.name }}</label>
                             </div>
                         </div>
                         <div class="login__btn">
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
     name: 'EditCompany',
     data() {
@@ -60,11 +61,11 @@ export default {
         }
     },
     methods: {
-        handleCreateCompany() {
+        handleUpdateCompany() {
             this.loading = true;
             let formData = new FormData();
+            formData.append("_method", 'PATCH');
             formData.append('name', this.name);
-            formData.append('email', this.email);
             formData.append('password', this.password);
             formData.append('password_confirmation', this.password_confirm);
             formData.append('url', this.url);
@@ -72,28 +73,21 @@ export default {
 
                 axios({
                     method: "post",
-                    url: "company",
+                    url: "company/"+this.id,
                     data: formData,
                     headers: { 
                         "Content-Type": "multipart/form-data", 
                         "Authorization": 'Bearer ' + localStorage.getItem('token') 
                     },
                 }).then((response) => {
-                    if (response.status == 201) {
+                    if (response.data.status == 200) {
                         Vue.$toast.open({
-                            message: 'Company created',
+                            message: 'Company updated',
                             type: 'success'
                         });
-
-                        this.name               = '';
-                        this.email              = '';
-                        this.password           = '';
-                        this.password_confirm   = '';
-                        this.url                = '';
-                        this.logo               = '';
                     } else {
                         Vue.$toast.open({
-                            message: 'Company not created, try again!',
+                            message: 'Company not updated, try again!',
                             type: 'error'
                         });
                     }
@@ -101,7 +95,7 @@ export default {
                 this.loading = false;
             }).catch(error => {
                 Vue.$toast.open({
-                    message: 'Company not created, try again!',
+                    message: 'Company not updated, try again!',
                     type: 'error'
                 });
                 this.loading = false;
