@@ -4,7 +4,7 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn mb__30">Companies</h3>
-                    <div class="overflow-auto">
+                        <div class="overflow-auto">
                         <b-table
                             id="my-table"
                             :busy="isBusy"
@@ -17,19 +17,18 @@
                             hover
                             outlined
                             bordered
-                            responsive="sm"
                             >
-                                <template #cell(logo)="data">
-                                    <b-avatar variant="secondary" :src="data.value"></b-avatar>
-                                </template>
-                                <template #cell(Employees)="data">
-                                    <b>{{ data.item.employees.length }}</b>
-                                </template>
                                 <template #table-busy>
                                     <div class="text-center text-danger my-2">
                                     <b-spinner class="align-middle"></b-spinner>
                                     <strong>Loading...</strong>
                                     </div>
+                                </template>
+                                <template #cell(logo)="data">
+                                    <b-avatar variant="secondary" :src="data.value"></b-avatar>
+                                </template>
+                                <template #cell(Employees)="data">
+                                    <b>{{ data.item.employees.length }}</b>
                                 </template>
                                 <template #cell(actions)="row">
                                     <b-dropdown v-if="user && user.account_type == 'Admin'" id="dropdown-1" text="Actions" class="m-md-2">
