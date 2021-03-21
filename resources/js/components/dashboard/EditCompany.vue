@@ -73,7 +73,14 @@ export default {
             formData.append('logo', this.logo);
 
             try {
-                const response = await axios.post("company/"+this.id, formData);
+                const response = await axios({
+                    method: 'post',
+                    url: "company/"+this.id,
+                    data: formData,
+                    headers: {
+                        Authorization: 'Bearer ' + this.user.token
+                    }
+                }); 
 
                 if (response.data.status == 200) {
                     Vue.$toast.open({
@@ -101,7 +108,13 @@ export default {
         }
     },
     async created() {
-        const response = await axios.get('company/'+this.id);
+        const response = await axios({
+            method: 'get',
+            url: 'company/'+this.id,
+            headers: {
+                Authorization: 'Bearer ' + this.user.token
+            }
+        });
 
         try {
             var company    = response.data.data;
@@ -112,7 +125,7 @@ export default {
                 message: 'An error occured!',
                 type: 'error'
             });
-         }
+        }
     },
     computed: {
         ...mapGetters(['user']),
@@ -122,7 +135,7 @@ export default {
             this.$router.push('/login');
         }
         
-        if (this.user.account_type !== "Admin"){
+        if (this.user.info.account_type !== "Admin"){
             this.$router.push('/');
         }
     }

@@ -81,7 +81,14 @@ export default {
             formData.append('password_confirmation', this.password_confirm);
             
             try {
-                const response = await axios.post('user', formData);
+                const response = await axios({
+                    method: 'post',
+                    url: 'user',
+                    data: formData,
+                    headers: {
+                        Authorization: 'Bearer ' + this.user.token
+                    }
+                });
                 
                 if (this.password !== this.password_confirm){
                     Vue.$toast.open({
@@ -133,7 +140,7 @@ export default {
             this.$router.push('/login');
         }
 
-        if (this.user.account_type !== "Admin"){
+        if (this.user.info.account_type !== "Admin"){
             this.$router.push('/');
         }
     }

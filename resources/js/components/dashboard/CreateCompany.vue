@@ -79,7 +79,7 @@ export default {
 
             try {
                 const response = await axios.post("company", formData);
-
+                console.log(response);
                 if (response.status == 201) {
                     Vue.$toast.open({
                         message: 'Company created',
@@ -101,6 +101,7 @@ export default {
 
                 this.loading = false;
             } catch (err) {
+                console.log(err.response.data);
                 Vue.$toast.open({
                     message: 'Company not created, try again!',
                     type: 'error'
@@ -108,35 +109,6 @@ export default {
                 
                 this.loading = false;
             }
-            // axios.post('company', formData).then((response) => {
-            //     if (response.status == 201) {
-            //         Vue.$toast.open({
-            //             message: 'Company created',
-            //             type: 'success'
-            //         });
-
-            //         this.name               = '';
-            //         this.email              = '';
-            //         this.password           = '';
-            //         this.password_confirm   = '';
-            //         this.url                = '';
-            //         this.logo               = '';
-            //     } else {
-            //         Vue.$toast.open({
-            //             message: 'Company not created, try again!',
-            //             type: 'error'
-            //         });
-            //     }
-
-            //     this.loading = false;
-            // }).catch((err) => {
-            //     Vue.$toast.open({
-            //         message: 'Company not created, try again!',
-            //         type: 'error'
-            //     });
-                
-            //     this.loading = false;
-            // });
         },
         saveImage(e) {
             this.logo = e.target.files[0];

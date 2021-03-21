@@ -3,7 +3,7 @@
         <section id="banner">
             <div class="inner">
                 <h1 v-if="!user">CRM-VUE</h1>
-                <h2 v-if="user">{{ user.account_type }} Dashboard</h2>
+                <h2 v-if="user">{{ user.info.account_type }} Dashboard</h2>
                 <p>Company / Employee Management System<br /></p>
             </div>
             <video autoplay loop muted playsinline :src="image_src"></video>

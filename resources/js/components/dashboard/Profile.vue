@@ -48,7 +48,7 @@ export default {
         }
     },
     methods: {
-        handleUpdateUser() {
+        async handleUpdateUser() {
             this.loading = true;
             let formData = new FormData();
             formData.append("_method", 'PATCH');
@@ -56,37 +56,49 @@ export default {
             formData.append('password', this.password);
             formData.append('password_confirmation', this.password_confirm);
 
-            axios.post("user/"+this.user.id, formData).then((response) => {
+            try {
+                const response = await axios({
+                    method: 'post',
+                    url: "user/"+this.user.info.id,
+                    data: formData,
+                    headers: {
+                        Authorization: 'Bearer ' + this.user.token
+                    }
+                });
+
                 if (this.password !== this.password_confirm){
+                    Vue.$toast.open({
+                        message: 'Password mismatch!',
+                        type: 'error'
+                    });
+                } else {
+                    if (response.status == 200) {
                         Vue.$toast.open({
-                            message: 'Password mismatch!',
+                            message: 'User updated!',
+                            type: 'success'
+                        });
+
+                        this.$store.dispatch('user', {
+                                info: response.data.user,
+                                token: this.user.token
+                            }
+                        );
+                    } else {
+                        Vue.$toast.open({
+                            message: "User not updated!",
                             type: 'error'
                         });
-                    } else {
-                        if (response.status == 200) {
-                            Vue.$toast.open({
-                                message: 'User updated!',
-                                type: 'success'
-                            });
-
-                            this.$store.dispatch('user', response.data.user);
-                            
-                        } else {
-                            Vue.$toast.open({
-                                message: "User not updated!",
-                                type: 'error'
-                            });
-                        }
                     }
+                }
 
                 this.loading = false;
-            }).catch((err) => {
+            } catch (error) {
                 Vue.$toast.open({
                     message: 'User not updated, try again!',
                     type: 'error'
                 });
                 this.loading = false;
-            });
+            }
         }
     },
     computed: {
@@ -97,7 +109,7 @@ export default {
             this.$router.push('/login');
         }
         
-        this.name = this.user.name;
+        this.name = this.user.info.name;
         if (!this.user){
             this.$router.push('/');
         }

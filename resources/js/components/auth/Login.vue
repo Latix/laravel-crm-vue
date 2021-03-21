@@ -50,8 +50,11 @@ export default {
                 }).then((response) => {
                     const result = response.data;
                     if (result.statusCode == 200) {
-                        localStorage.setItem('token', result.response.token);
-                        this.$store.dispatch('user', result.response.user);
+                        this.$store.dispatch('user', {
+                                info: result.response.user,
+                                token: result.response.token
+                            }
+                        );
                         this.$router.push('/');
                     } else {
                         Vue.$toast.open({

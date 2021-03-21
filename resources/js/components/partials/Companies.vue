@@ -31,7 +31,7 @@
                                     <b>{{ data.item.employees.length }}</b>
                                 </template>
                                 <template #cell(actions)="row">
-                                    <b-dropdown v-if="user && user.account_type == 'Admin'" id="dropdown-1" text="Actions" class="m-md-2">
+                                    <b-dropdown v-if="user && user.info.account_type == 'Admin'" id="dropdown-1" text="Actions" class="m-md-2">
                                         <b-dropdown-item  @click="editCompany(row)">Edit Company</b-dropdown-item>
                                         <b-dropdown-item  @click="viewEmployees(row)">View Employees</b-dropdown-item>
                                         <b-dropdown-item  @click="deleteCompany(row)">Delete Company</b-dropdown-item>
@@ -103,8 +103,14 @@ export default {
         async deleteCompany (company) {
             this.isBusy = true;
             try {
-                const response = await axios.delete("company/"+company.item.id);
-
+                const response = await axios({
+                    method: 'delete',
+                    url: "company/"+company.item.id,
+                    headers: {
+                        Authorization: 'Bearer ' + this.user.token
+                    }
+                });
+                
                 Vue.$toast.open({
                     message: company.item.name + ' has been deleted!',
                     type: 'success'

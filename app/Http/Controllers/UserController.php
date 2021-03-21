@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use JWTAuth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -105,7 +106,7 @@ class UserController extends Controller
         return response()->json([
             'status'  => 200,
             'message' => "User Updated!",
-            'user' => new UserResource($user)
+            'user' => $user
         ]);
     }
 

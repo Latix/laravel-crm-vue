@@ -38,7 +38,7 @@
                                 <p class="text-center">{{ company.name }}</p>
                             </template>
                             <template #cell(actions)="row">
-                                <p v-if="user.account_type == 'Admin'" class="text-center"><b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span></p>
+                                <p v-if="user.info.account_type == 'Admin'" class="text-center"><b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span></p>
                                 <p v-else class="text-center">...</p>
                             </template>
                         </b-table>
@@ -86,31 +86,34 @@ export default {
         }
     },
     methods: {
-        deleteEmployee (employee) {
+        async deleteEmployee (employee) {
             this.isBusy = true;
-            axios({
+            try {
+                const response = await axios({
                     method: "delete",
                     url: "user/"+employee.item.id,
                     data: {
                         company_id: this.company_id
                     },
                     headers: { 
-                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
+                        "Authorization": 'Bearer ' + this.user.token
                     },
-                }).then((response) => {
-                    Vue.$toast.open({
-                        message: employee.item.name + ' has been deleted!',
-                        type: 'success'
-                    });
-                    this.employees = response.data[2].employees;
-                    this.isBusy = false;
-            }).catch((err) => {
+                });
+
+                Vue.$toast.open({
+                    message: employee.item.name + ' has been deleted!',
+                    type: 'success'
+                });
+
+                this.employees = response.data[2].employees;
+                this.isBusy = false;
+            } catch (error) {
                 Vue.$toast.open({
                     message: 'An error occured!',
                     type: 'error'
                 });
                 this.isBusy = false;
-            });
+            }
         }
     },
     computed: {
@@ -119,39 +122,44 @@ export default {
         },
         ...mapGetters(['user'])
     },
-    created() {
+    async created() {
+        try {
+            const response  = await axios({
+                method: "get",
+                url: "company/"+this.company_id,
+                data: {
+                    company_id: this.company_id
+                },
+                headers: { 
+                    "Authorization": 'Bearer ' + this.user.token
+                }
+            });
 
-            axios({
-                    method: "get",
-                    url: "company/"+this.company_id,
-                    data: {
-                        company_id: this.company_id
-                    },
-                    headers: { 
-                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
-                    }
-                }).then((response) => {
-                        
-                    const result    = response.data.data;
+            const result    = response.data.data;
                     
-                    this.employees  = result.employees;
-                    this.company    = result;
-                    this.isBusy = false;
-            }).catch((error) => {});
+            this.employees  = result.employees;
+            this.company    = result;
+            this.isBusy = false;
+        } catch (error) {
+            Vue.$toast.open({
+                message: 'An error occured!',
+                type: 'error'
+            });
+        }
     },
     mounted() {
         if (!this.user){
             this.$router.push('/login');
         }
 
-        if (this.user.account_type == "Manager"){
-            if (this.company_id != this.user.company_id){
+        if (this.user.info.account_type == "Manager"){
+            if (this.company_id != this.user.info.company_id){
                 this.$router.push('/');
             }
-            this.company_id = this.user.company_id;
+            this.company_id = this.user.info.company_id;
         }
 
-        if (this.user.account_type == "Employee"){
+        if (this.user.info.account_type == "Employee"){
             this.$router.push('/');
         }
     }
