@@ -6,8 +6,8 @@
 
 ## Project Setup
 
-- **Clone Repository**
-- **Checkout Master Branch**
+- **Clone repository**
+- **Checkout master branch**
 
 ## Contributors
 
