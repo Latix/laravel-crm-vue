@@ -7,7 +7,7 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn">Edit Company</h3>
-                    <form @submit.prevent="handleUpdateCompany" enctype="multipart/form-data">
+                    <form @submit.prevent="handleUpdateCompany" enctype="multipart/form-data" novalidate>
                         <div class="row">
                             <div class="col-12">
                                 <input type="text" class="mt--y10" v-model.trim="$v.name.$model" placeholder="Name" />
