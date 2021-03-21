@@ -34,7 +34,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" v-model="url" placeholder="Url" />
+                                <input type="text" class="mt--y10" v-model.trim="$v.url.$model" placeholder="Url" />
                                 <div class="error" v-if="!$v.url.required">Url field is required</div>
                             </div>
                         </div>
@@ -59,7 +59,8 @@
 <script>
 import Vue from 'vue';
 import {mapGetters} from 'vuex';
-import { required, sameAs } from 'vuelidate/lib/validators'
+import { required, sameAs } from 'vuelidate/lib/validators';
+
 export default {
     name: 'CreateCompany',
     data() {
@@ -96,8 +97,8 @@ export default {
     },
     methods: {
         async handleCreateCompany() {
-            console.log('submit!')
-            this.$v.$touch()
+            this.$v.$touch();
+            
             if (this.$v.$invalid) {
                 this.submitStatus = 'ERROR';
                 Vue.$toast.open({

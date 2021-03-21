@@ -10,22 +10,24 @@
                     <form @submit.prevent="handleUpdateCompany" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" v-model="name" required />
+                                <input type="text" class="mt--y10" v-model.trim="$v.name.$model" placeholder="Name" />
+                                <div class="error" v-if="!$v.name.required">Name field is required</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" v-model="password" placeholder="New Password" />
+                                <input type="password" class="mt--y10" v-model="password" placeholder="Password" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="password" class="mt--y10" v-model="password_confirm" placeholder="Confirm New Password" />
+                                <input type="password" class="mt--y10" v-model="password_confirm" placeholder="Password Confirmation" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" v-model="url" placeholder="Url" required />
+                                <input type="text" class="mt--y10" v-model.trim="$v.url.$model" placeholder="Url" />
+                                <div class="error" v-if="!$v.url.required">Url field is required</div>
                             </div>
                         </div>
                         <div class="row company__logo">
@@ -46,6 +48,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import {mapGetters} from 'vuex';
 import Vue from 'vue';
 export default {
@@ -58,49 +61,68 @@ export default {
             password_confirm: '',
             url: '',
             logo: '',
+            submitStatus: null,
             loading: false
+        }
+    },
+    validations: {
+        name: {
+            required
+        },
+        url: {
+            required
         }
     },
     methods: {
         async handleUpdateCompany() {
-            this.loading = true;
-            let formData = new FormData();
-            formData.append("_method", 'PATCH');
-            formData.append('name', this.name);
-            formData.append('password', this.password);
-            formData.append('password_confirmation', this.password_confirm);
-            formData.append('url', this.url);
-            formData.append('logo', this.logo);
+            this.$v.$touch();
 
-            try {
-                const response = await axios({
-                    method: 'post',
-                    url: "company/"+this.id,
-                    data: formData,
-                    headers: {
-                        Authorization: 'Bearer ' + this.user.token
+            if (this.$v.$invalid) {
+                this.submitStatus = 'ERROR';
+                Vue.$toast.open({
+                    message: 'Provide required fields!',
+                    type: 'error'
+                });
+            } else {
+                this.loading = true;
+                let formData = new FormData();
+                formData.append("_method", 'PATCH');
+                formData.append('name', this.name);
+                formData.append('password', this.password);
+                formData.append('password_confirmation', this.password_confirm);
+                formData.append('url', this.url);
+                formData.append('logo', this.logo);
+
+                try {
+                    const response = await axios({
+                        method: 'post',
+                        url: "company/"+this.id,
+                        data: formData,
+                        headers: {
+                            Authorization: 'Bearer ' + this.user.token
+                        }
+                    }); 
+
+                    if (response.data.status == 200) {
+                        Vue.$toast.open({
+                            message: 'Company updated',
+                            type: 'success'
+                        });
+                    } else {
+                        Vue.$toast.open({
+                            message: 'Company not updated, try again!',
+                            type: 'error'
+                        });
                     }
-                }); 
 
-                if (response.data.status == 200) {
-                    Vue.$toast.open({
-                        message: 'Company updated',
-                        type: 'success'
-                    });
-                } else {
+                    this.loading = false;
+                } catch (error) {
                     Vue.$toast.open({
                         message: 'Company not updated, try again!',
                         type: 'error'
                     });
+                    this.loading = false;
                 }
-
-                this.loading = false;
-            } catch (error) {
-                Vue.$toast.open({
-                    message: 'Company not updated, try again!',
-                    type: 'error'
-                });
-                this.loading = false;
             }
         },
         saveImage(e) {
