@@ -12,7 +12,7 @@
                             :per-page="perPage"
                             :current-page="currentPage"
                             :fields="fields"
-                            small
+                            large
                             striped
                             hover
                             outlined
