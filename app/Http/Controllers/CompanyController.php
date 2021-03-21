@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
+    use ApiResponseTrait;
+
     /**
     * Create a new CompanyController instance.
     *
@@ -17,7 +19,7 @@ class CompanyController extends Controller
     */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index']]);
+        $this->middleware('jwt.verify', ['except' => ['index']]);
     }
 
     /**
@@ -38,6 +40,11 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        $api_user    = static::getLoggedUser();
+
+        if (!$api_user->isAdmin())
+            return response()->json(['status' => 400, 'message' => 'Unauthorized']);
+            
         $validator = Validator::make(request()->all(), [
 	        'name'      => 'required',
             'email'     => 'required|email',
@@ -131,7 +138,9 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if (!auth('api')->user()->isAdmin())
+        $api_user    = static::getLoggedUser();
+        
+        if (!$api_user->isAdmin())
             return response()->json(['status' => 400, 'message' => 'Unauthorized']);
 
         $company->delete();

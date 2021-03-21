@@ -67,7 +67,7 @@ export default {
         }
     },
     methods: {
-        handleCreateCompany() {
+        async handleCreateCompany() {
             this.loading = true;
             let formData = new FormData();
             formData.append('name', this.name);
@@ -77,15 +77,8 @@ export default {
             formData.append('url', this.url);
             formData.append('logo', this.logo);
 
-                axios({
-                    method: "post",
-                    url: "company",
-                    data: formData,
-                    headers: { 
-                        "Content-Type": "multipart/form-data", 
-                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
-                    },
-                }).then((response) => {
+            try {
+                const response = await axios.post('company', formData);
                     if (response.status == 201) {
                         Vue.$toast.open({
                             message: 'Company created',
@@ -106,13 +99,13 @@ export default {
                     }
 
                 this.loading = false;
-            }).catch(error => {
+            } catch(err) {
                 Vue.$toast.open({
                     message: 'Company not created, try again!',
                     type: 'error'
                 });
                 this.loading = false;
-            });
+            };
         },
         saveImage(e) {
             this.logo = e.target.files[0];

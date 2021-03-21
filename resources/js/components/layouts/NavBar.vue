@@ -41,7 +41,6 @@
         methods: {
             handleLogout() {
                 localStorage.removeItem('token');
-                axios.post('auth/logout');
                 this.$store.dispatch('user', null);
                 this.$router.push('/login');
             },

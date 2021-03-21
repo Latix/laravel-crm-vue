@@ -48,7 +48,7 @@ export default {
         }
     },
     methods: {
-        handleUpdateUser() {
+        async handleUpdateUser() {
             this.loading = true;
             let formData = new FormData();
             formData.append("_method", 'PATCH');
@@ -56,15 +56,10 @@ export default {
             formData.append('password', this.password);
             formData.append('password_confirmation', this.password_confirm);
 
-                axios({
-                    method: "post",
-                    url: "user/"+this.user.id,
-                    data: formData,
-                    headers: { 
-                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
-                    },
-                }).then((response) => {
-                    if (this.password !== this.password_confirm){
+            try {
+                const response = await axios.post("user/"+this.user.id, formData);
+
+                if (this.password !== this.password_confirm){
                         Vue.$toast.open({
                             message: 'Password mismatch!',
                             type: 'error'
@@ -80,21 +75,20 @@ export default {
                             
                         } else {
                             Vue.$toast.open({
-                                message: response.data.message,
+                                message: "User not updated!",
                                 type: 'error'
                             });
                         }
                     }
 
                 this.loading = false;
-            }).catch(error => {
-                console.log(error.response.data);
-                Vue.$toast.open({
-                    message: 'User not updated, try again!',
-                    type: 'error'
-                });
-                this.loading = false;
-            });
+            } catch (error) {
+                    Vue.$toast.open({
+                        message: 'User not updated, try again!',
+                        type: 'error'
+                    });
+                    this.loading = false;
+            }
         }
     },
     computed: {

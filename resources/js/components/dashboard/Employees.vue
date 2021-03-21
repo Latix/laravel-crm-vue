@@ -86,23 +86,31 @@ export default {
         }
     },
     methods: {
-        async deleteEmployee (employee) {
+        deleteEmployee (employee) {
             this.isBusy = true;
-            try {
-                const response = await axios.delete('user/'+employee.item.id);
-                Vue.$toast.open({
-                    message: employee.item.name + ' has been deleted!',
-                    type: 'success'
-                });
-                this.employees = response.data[2].employees;
-                this.isBusy = false;
-            } catch(error) {
+            axios({
+                    method: "delete",
+                    url: "user/"+employee.item.id,
+                    data: {
+                        company_id: this.company_id
+                    },
+                    headers: { 
+                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
+                    },
+                }).then((response) => {
+                    Vue.$toast.open({
+                        message: employee.item.name + ' has been deleted!',
+                        type: 'success'
+                    });
+                    this.employees = response.data[2].employees;
+                    this.isBusy = false;
+            }).catch((err) => {
                 Vue.$toast.open({
                     message: 'An error occured!',
                     type: 'error'
                 });
                 this.isBusy = false;
-            }
+            });
         }
     },
     computed: {
@@ -112,14 +120,23 @@ export default {
         ...mapGetters(['user'])
     },
     created() {
-            axios.get('company/'+this.company_id, {
-                company_id: this.company_id
-            }).then((response) => {
-                const result    = response.data.data;
-                
-                this.employees  = result.employees;
-                this.company    = result;
-                this.isBusy = false;
+
+            axios({
+                    method: "get",
+                    url: "company/"+this.company_id,
+                    data: {
+                        company_id: this.company_id
+                    },
+                    headers: { 
+                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
+                    }
+                }).then((response) => {
+                        
+                    const result    = response.data.data;
+                    
+                    this.employees  = result.employees;
+                    this.company    = result;
+                    this.isBusy = false;
             }).catch((error) => {});
     },
     mounted() {

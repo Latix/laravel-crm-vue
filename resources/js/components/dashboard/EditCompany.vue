@@ -62,7 +62,7 @@ export default {
         }
     },
     methods: {
-        handleUpdateCompany() {
+        async handleUpdateCompany() {
             this.loading = true;
             let formData = new FormData();
             formData.append("_method", 'PATCH');
@@ -72,46 +72,47 @@ export default {
             formData.append('url', this.url);
             formData.append('logo', this.logo);
 
-                axios({
-                    method: "post",
-                    url: "company/"+this.id,
-                    data: formData,
-                    headers: { 
-                        "Content-Type": "multipart/form-data", 
-                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
-                    },
-                }).then((response) => {
-                    if (response.data.status == 200) {
-                        Vue.$toast.open({
-                            message: 'Company updated',
-                            type: 'success'
-                        });
-                    } else {
-                        Vue.$toast.open({
-                            message: 'Company not updated, try again!',
-                            type: 'error'
-                        });
-                    }
+            try {
+                const response = await axios.post("company/"+this.id, formData);
+
+                if (response.data.status == 200) {
+                    Vue.$toast.open({
+                        message: 'Company updated',
+                        type: 'success'
+                    });
+                } else {
+                    Vue.$toast.open({
+                        message: 'Company not updated, try again!',
+                        type: 'error'
+                    });
+                }
 
                 this.loading = false;
-            }).catch(error => {
+            } catch (error) {
                 Vue.$toast.open({
                     message: 'Company not updated, try again!',
                     type: 'error'
                 });
                 this.loading = false;
-            });
+            }
         },
         saveImage(e) {
             this.logo = e.target.files[0];
         }
     },
-    created() {
-        axios.get('company/'+this.id).then((response) => {
+    async created() {
+        const response = await axios.get('company/'+this.id);
+
+        try {
             var company    = response.data.data;
             this.name      = company.name;
             this.url       = company.url;
-        });
+        } catch (error) {
+            Vue.$toast.open({
+                message: 'An error occured!',
+                type: 'error'
+            });
+         }
     },
     computed: {
         ...mapGetters(['user']),

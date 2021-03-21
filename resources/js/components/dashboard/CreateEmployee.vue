@@ -70,7 +70,7 @@ export default {
         }
     },
     methods: {
-        handleCreateEmployee() {
+        async handleCreateEmployee() {
             this.loading = true;
             let formData = new FormData();
             formData.append('company_id', this.selected_company);
@@ -79,48 +79,44 @@ export default {
             formData.append('account_type', this.selected_account_type);
             formData.append('password', this.password);
             formData.append('password_confirmation', this.password_confirm);
-
-                axios({
-                    method: "post",
-                    url: "user",
-                    data: formData,
-                    headers: { 
-                        "Authorization": 'Bearer ' + localStorage.getItem('token') 
-                    },
-                }).then((response) => {
-                    if (this.password !== this.password_confirm){
+            
+            try {
+                const response = await axios.post('user', formData);
+                console.log(response);
+                if (this.password !== this.password_confirm){
+                    Vue.$toast.open({
+                        message: 'Password mismatch!',
+                        type: 'error'
+                    });
+                } else {
+                    if (response.status == 201) {
                         Vue.$toast.open({
-                            message: 'Password mismatch!',
+                            message: 'User created',
+                            type: 'success'
+                        });
+
+                        this.name               = '';
+                        this.email              = '';
+                        this.password           = '';
+                        this.password_confirm   = '';
+                        this.selected_account_type = null;
+                    } else {
+                        Vue.$toast.open({
+                            message: response.data.message,
                             type: 'error'
                         });
-                    } else {
-                        if (response.status == 201) {
-                            Vue.$toast.open({
-                                message: 'User created',
-                                type: 'success'
-                            });
-
-                            this.name               = '';
-                            this.email              = '';
-                            this.password           = '';
-                            this.password_confirm   = '';
-                            this.selected_account_type = null;
-                        } else {
-                            Vue.$toast.open({
-                                message: response.data.message,
-                                type: 'error'
-                            });
-                        }
                     }
+                }
 
                 this.loading = false;
-            }).catch(error => {
+            } catch(err) {
+                console.log(err);
                 Vue.$toast.open({
                     message: 'User not created, try again!',
                     type: 'error'
                 });
                 this.loading = false;
-            });
+            };
         }
     },
     computed: {

@@ -49,9 +49,11 @@ export default {
                     email: this.email,
                     password: this.password
                 });
-                if (response.status == 200) {
-                    localStorage.setItem('token', response.data.access_token);
-                    this.$store.dispatch('user', response.data.user);
+                
+                const result = response.data;
+                if (result.statusCode == 200) {
+                    localStorage.setItem('token', result.response.token);
+                    this.$store.dispatch('user', result.response.user);
                     this.$router.push('/');
                 } else {
                     Vue.$toast.open({
