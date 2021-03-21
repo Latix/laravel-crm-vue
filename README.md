@@ -27,7 +27,7 @@
 
 #### Note
 
-- **Valid account types are _Admin, Manager and Employee**
+- **Valid account types are _Admin, Manager and Employee_**
 - The _Admin_ serves as the highest system user and _Manager_ serves as company level user
 
 ## Contributors
