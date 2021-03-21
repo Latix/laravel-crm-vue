@@ -48,7 +48,7 @@ export default {
         }
     },
     methods: {
-        async handleUpdateUser() {
+        handleUpdateUser() {
             this.loading = true;
             let formData = new FormData();
             formData.append("_method", 'PATCH');
@@ -56,9 +56,7 @@ export default {
             formData.append('password', this.password);
             formData.append('password_confirmation', this.password_confirm);
 
-            try {
-                const response = await axios.post("user/"+this.user.id, formData);
-
+            axios.post("user/"+this.user.id, formData).then((response) => {
                 if (this.password !== this.password_confirm){
                         Vue.$toast.open({
                             message: 'Password mismatch!',
@@ -82,13 +80,13 @@ export default {
                     }
 
                 this.loading = false;
-            } catch (error) {
-                    Vue.$toast.open({
-                        message: 'User not updated, try again!',
-                        type: 'error'
-                    });
-                    this.loading = false;
-            }
+            }).catch((err) => {
+                Vue.$toast.open({
+                    message: 'User not updated, try again!',
+                    type: 'error'
+                });
+                this.loading = false;
+            });
         }
     },
     computed: {

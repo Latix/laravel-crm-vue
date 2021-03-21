@@ -82,7 +82,7 @@ export default {
             
             try {
                 const response = await axios.post('user', formData);
-                console.log(response);
+                
                 if (this.password !== this.password_confirm){
                     Vue.$toast.open({
                         message: 'Password mismatch!',
@@ -102,7 +102,7 @@ export default {
                         this.selected_account_type = null;
                     } else {
                         Vue.$toast.open({
-                            message: response.data.message,
+                            message: "User not created",
                             type: 'error'
                         });
                     }

@@ -42,33 +42,31 @@ export default {
         }
     },
     methods: {
-        async handleLogin() {
+        handleLogin() {
             this.loading = true;
-            try {
-                const response = await axios.post('auth/login', {
+            axios.post('auth/login', {
                     email: this.email,
                     password: this.password
-                });
-                
-                const result = response.data;
-                if (result.statusCode == 200) {
-                    localStorage.setItem('token', result.response.token);
-                    this.$store.dispatch('user', result.response.user);
-                    this.$router.push('/');
-                } else {
+                }).then((response) => {
+                    const result = response.data;
+                    if (result.statusCode == 200) {
+                        localStorage.setItem('token', result.response.token);
+                        this.$store.dispatch('user', result.response.user);
+                        this.$router.push('/');
+                    } else {
+                        Vue.$toast.open({
+                            message: 'Invalid credentials, try again!',
+                            type: 'error'
+                        });
+                    } 
+                    this.loading = false;
+                }).catch((err) => {
                     Vue.$toast.open({
                         message: 'Invalid credentials, try again!',
                         type: 'error'
                     });
-                } 
-                this.loading = false;
-            } catch (e) {
-                Vue.$toast.open({
-                    message: 'Invalid credentials, try again!',
-                    type: 'error'
+                    this.loading = false; 
                 });
-                this.loading = false;
-            }
         }
     },
     computed: {
