@@ -6,6 +6,13 @@
 
 ## Project Setup
 
+- **Clone Repository**
+- **Checkout Master Branch**
+
+## Contributors
+
+- Kamsi Kodi
+
 --
 
 ## License & copyright
