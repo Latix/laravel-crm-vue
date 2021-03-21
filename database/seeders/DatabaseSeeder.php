@@ -13,7 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\Company::factory(10)->create();
+        \App\Models\User::factory([
+                                        'company_id' => 0, 
+                                        'email' => 'test@test.com', 
+                                        'account_type' => 'Admin'
+                                    ])->create();
         // $companies = \App\Models\Company::factory()->count(10)->make();
         $this->call([CompanySeeder::class]);
     }

@@ -7,8 +7,25 @@
 ## Project Setup
 
 - **Clone repository**
+- **cd into project**
 - **Checkout master branch**
+- **Run composer install**
+- **Create .env file _cp .env.example .env_ and update database variable to your database configuration**
+- **Run php artisan key:generate**
+- **Run php artisan jwt:secret**
+- **Run php artisan storage:link**
+- **Run php artisan migrate**
+- **Run php artisan db:seed**
+- **Run npm install**
+- **Run npm run dev**
+- **Open project url on local system**
 
+### Admin Login
+- **Email: test@test.com**
+- **Password: password**
+
+#### Note
+- **Valid account types are**
 ## Contributors
 
 - Kamsi Kodi
