@@ -103,16 +103,23 @@ export default {
                         }
                     }); 
 
-                    if (response.data.status == 200) {
+                    if (this.password !== this.password_confirm){
                         Vue.$toast.open({
-                            message: 'Company updated',
-                            type: 'success'
-                        });
-                    } else {
-                        Vue.$toast.open({
-                            message: 'Company not updated, try again!',
+                            message: 'Password mismatch!',
                             type: 'error'
                         });
+                    } else {
+                        if (response.data.status == 200) {
+                            Vue.$toast.open({
+                                message: 'Company updated',
+                                type: 'success'
+                            });
+                        } else {
+                            Vue.$toast.open({
+                                message: 'Company not updated, try again!',
+                                type: 'error'
+                            });
+                        }
                     }
 
                     this.loading = false;

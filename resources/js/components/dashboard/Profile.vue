@@ -7,10 +7,11 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn">Update Profile</h3>
-                    <form @submit.prevent="handleUpdateUser">
+                    <form @submit.prevent="handleUpdateUser" novalidate>
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="mt--y10" v-model="name"  placeholder="Name" required />
+                                <input type="text" class="mt--y10" v-model.trim="$v.name.$model"  placeholder="Name" />
+                                <div class="error" v-if="!$v.name.required">Name field is required</div>
                             </div>
                         </div>
                         <div class="row">
@@ -37,6 +38,8 @@
 <script>
 import Vue from 'vue';
 import {mapGetters} from 'vuex';
+import { required, sameAs } from 'vuelidate/lib/validators';
+
 export default {
     name: 'Profile',
     data() {
@@ -47,57 +50,72 @@ export default {
             loading: false
         }
     },
+    validations: {
+        name: {
+            required
+        }
+    },
     methods: {
         async handleUpdateUser() {
-            this.loading = true;
-            let formData = new FormData();
-            formData.append("_method", 'PATCH');
-            formData.append('name', this.name);
-            formData.append('password', this.password);
-            formData.append('password_confirmation', this.password_confirm);
-
-            try {
-                const response = await axios({
-                    method: 'post',
-                    url: "user/"+this.user.info.id,
-                    data: formData,
-                    headers: {
-                        Authorization: 'Bearer ' + this.user.token
-                    }
-                });
-
-                if (this.password !== this.password_confirm){
-                    Vue.$toast.open({
-                        message: 'Password mismatch!',
-                        type: 'error'
-                    });
-                } else {
-                    if (response.status == 200) {
-                        Vue.$toast.open({
-                            message: 'User updated!',
-                            type: 'success'
-                        });
-
-                        this.$store.dispatch('user', {
-                                info: response.data.user,
-                                token: this.user.token
-                            }
-                        );
-                    } else {
-                        Vue.$toast.open({
-                            message: "User not updated!",
-                            type: 'error'
-                        });
-                    }
-                }
-
-                this.loading = false;
-            } catch (error) {
+            this.$v.$touch();
+            
+            if (this.$v.$invalid) {
+                this.submitStatus = 'ERROR';
                 Vue.$toast.open({
-                    message: 'User not updated, try again!',
+                    message: 'Provide required fields!',
                     type: 'error'
                 });
-                this.loading = false;
+            } else {
+                this.loading = true;
+                let formData = new FormData();
+                formData.append("_method", 'PATCH');
+                formData.append('name', this.name);
+                formData.append('password', this.password);
+                formData.append('password_confirmation', this.password_confirm);
+
+                try {
+                    const response = await axios({
+                        method: 'post',
+                        url: "user/"+this.user.info.id,
+                        data: formData,
+                        headers: {
+                            Authorization: 'Bearer ' + this.user.token
+                        }
+                    });
+
+                    if (this.password !== this.password_confirm){
+                        Vue.$toast.open({
+                            message: 'Password mismatch!',
+                            type: 'error'
+                        });
+                    } else {
+                        if (response.status == 200) {
+                            Vue.$toast.open({
+                                message: 'User updated!',
+                                type: 'success'
+                            });
+
+                            this.$store.dispatch('user', {
+                                    info: response.data.user,
+                                    token: this.user.token
+                                }
+                            );
+                        } else {
+                            Vue.$toast.open({
+                                message: "User not updated!",
+                                type: 'error'
+                            });
+                        }
+                    }
+
+                    this.loading = false;
+                } catch (error) {
+                    Vue.$toast.open({
+                        message: 'User not updated, try again!',
+                        type: 'error'
+                    });
+                    this.loading = false;
+                }
             }
         }
     },

@@ -7,7 +7,7 @@
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn">Create Employee</h3>
-                    <form @submit.prevent="handleCreateEmployee">
+                    <form @submit.prevent="handleCreateEmployee" novalidate>
                         <div class="row">
                             <div class="col-12">
                                 <input type="text" class="mt--y10" v-model.trim="$v.name.$model"  placeholder="Name" />
@@ -110,7 +110,7 @@ export default {
                 });
             } else {
                 this.loading = true;
-                
+
                 let formData = new FormData();
                 formData.append('company_id', this.selected_company);
                 formData.append('name', this.name);
