@@ -121,7 +121,7 @@ class UserController extends Controller
 
         return response()->json(['User deleted', 200, [
                     'employees' => UserResource::collection(User::where('account_type', 'Employee')
-                                                                ->where('company_id', $user->company_id)
+                                                                ->where('company_id', request('company_id'))
                                                                 ->orderBy('id', 'desc')
                                                                 ->get()
                                                             )

@@ -39,7 +39,7 @@
                             </template>
                             <template #cell(actions)="row">
                                 <p v-if="user.account_type == 'Admin'" class="text-center"><b-icon-trash class="ml-2 cr-pointer" title="Delete" @click="deleteEmployee(row)"></b-icon-trash>&nbsp;<span @click="deleteEmployee(row)" class="cr-pointer">Delete</span></p>
-                                <p v-else>...</p>
+                                <p v-else class="text-center">...</p>
                             </template>
                         </b-table>
                         <b-pagination
@@ -112,12 +112,15 @@ export default {
         ...mapGetters(['user'])
     },
     created() {
-            axios.get('company/'+this.company_id).then((response) => {
-                const result   = response.data.data;
-                this.employees = result.employees;
-                this.company   = result;
+            axios.get('company/'+this.company_id, {
+                company_id: this.company_id
+            }).then((response) => {
+                const result    = response.data.data;
+                
+                this.employees  = result.employees;
+                this.company    = result;
                 this.isBusy = false;
-            });
+            }).catch((error) => {});
     },
     mounted() {
         if (!this.user){
@@ -125,9 +128,10 @@ export default {
         }
 
         if (this.user.account_type == "Manager"){
-            if (this.company_id !== this.user.company_id){
+            if (this.company_id != this.user.company_id){
                 this.$router.push('/');
             }
+            this.company_id = this.user.company_id;
         }
 
         if (this.user.account_type == "Employee"){
