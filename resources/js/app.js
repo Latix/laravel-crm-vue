@@ -23,6 +23,9 @@ import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 Vue.use(VueToast);
 
+import Vuelidate from 'vuelidate';
+Vue.use(Vuelidate);
+
 import utils from './helpers/utilities';
 Vue.prototype.$utils = utils;
 

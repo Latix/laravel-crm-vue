@@ -81,6 +81,11 @@
     margin-bottom: 30px;
 } 
 
+.mt__10
+{
+    margin-top: 10px;
+}
+
 #app .mobile__nav
 {
     display: none;
@@ -89,6 +94,14 @@
 #app .desktop__nav_link
 {
     display: inline-block;
+}
+
+.error
+{
+    color: #f99a8b;
+    font-size: 0.85rem !important;
+    line-height: 1.5;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
