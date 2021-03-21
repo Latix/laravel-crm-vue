@@ -11,7 +11,7 @@
                 <router-link class="desktop__nav_link" v-if="user && user.info.account_type == 'Manager'" :to="'/company/employees/'+user.info.company_id">Employees</router-link>
                 <router-link class="desktop__nav_link" v-if="user" to="/profile">Profile</router-link>
                 <router-link v-if="!user" to="/login">Login</router-link>
-                <a v-if="user" href="javascript:void(0)" @click="handleLogout">Logout</a>
+                <a class="desktop__nav_link" v-if="user" href="javascript:void(0)" @click="handleLogout">Logout</a>
                 <b-button v-b-toggle.sidebar-variant class="toggle__MenuButton mobile__nav">Menu</b-button>
                 <b-sidebar id="sidebar-variant" title="Crm-Vue" bg-variant="dark" text-variant="light" shadow>
                 <div class="py-2">
