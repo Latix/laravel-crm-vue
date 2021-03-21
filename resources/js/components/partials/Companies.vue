@@ -12,7 +12,7 @@
                             :per-page="perPage"
                             :current-page="currentPage"
                             :fields="fields"
-                            large
+                            small
                             striped
                             hover
                             outlined
@@ -25,18 +25,39 @@
                                     </div>
                                 </template>
                                 <template #cell(logo)="data">
-                                    <b-avatar variant="secondary" :src="data.value"></b-avatar>
+                                    <div class="text-center">
+                                        <b-avatar variant="secondary" :src="data.value"></b-avatar>
+                                    </div>
+                                </template>
+                                <template #cell(name)="data">
+                                    <div class="text-center">
+                                        <p>{{ data.value }}</p>
+                                    </div>
+                                </template>
+                                <template #cell(email)="data">
+                                    <div class="text-center">
+                                        <p>{{ data.value }}</p>
+                                    </div>
+                                </template>
+                                <template #cell(url)="data">
+                                    <div class="text-center">
+                                        <p>{{ data.value }}</p>
+                                    </div>
                                 </template>
                                 <template #cell(Employees)="data">
-                                    <b>{{ data.item.employees.length }}</b>
+                                    <div class="text-center">
+                                        <b>{{ data.item.employees.length }}</b>
+                                    </div>
                                 </template>
                                 <template #cell(actions)="row">
-                                    <b-dropdown v-if="user && user.info.account_type == 'Admin'" id="dropdown-1" text="Actions" class="m-md-2">
-                                        <b-dropdown-item  @click="editCompany(row)">Edit Company</b-dropdown-item>
-                                        <b-dropdown-item  @click="viewEmployees(row)">View Employees</b-dropdown-item>
-                                        <b-dropdown-item  @click="deleteCompany(row)">Delete Company</b-dropdown-item>
-                                    </b-dropdown>
-                                    <p v-else>...</p>
+                                    <div class="text-center">
+                                        <b-dropdown v-if="user && user.info.account_type == 'Admin'" id="dropdown-1" text="Actions" class="m-md-2">
+                                            <b-dropdown-item  @click="editCompany(row)">Edit Company</b-dropdown-item>
+                                            <b-dropdown-item  @click="viewEmployees(row)">View Employees</b-dropdown-item>
+                                            <b-dropdown-item  @click="deleteCompany(row)">Delete Company</b-dropdown-item>
+                                        </b-dropdown>
+                                        <p v-else>...</p>
+                                    </div>
                                 </template>
                             </b-table>
                             <b-pagination
