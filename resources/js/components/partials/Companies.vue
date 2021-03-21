@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section id="main" class="wrapper">
+        <section id="main">
             <div class="inner">
                 <div class="content">
                     <h3 class="login__btn mb__30">Companies</h3>

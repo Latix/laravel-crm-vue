@@ -9,14 +9,15 @@
             <video autoplay loop muted playsinline :src="image_src"></video>
         </section>
         <section class="wrapper">
-            <div class="inner">
+            <!-- <div class="inner">
                 <header class="special">
                     <h2>Company Relationship Management</h2>
                     <p>Stay aware and in control of your company and employees.</p>
                     <hr />
-                    <Companies :user="user" />
+                   
                 </header>
-            </div>
+            </div> -->
+             <Companies :user="user" />
         </section>
     </div>
 </template>
