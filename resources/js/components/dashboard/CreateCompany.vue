@@ -78,8 +78,15 @@ export default {
             formData.append('logo', this.logo);
 
             try {
-                const response = await axios.post("company", formData);
-                console.log(response);
+                const response = await axios({
+                    method: 'post',
+                    url: 'company',
+                    data: formData,
+                    headers: {
+                        Authorization: 'Bearer ' + this.user.token
+                    }
+                });
+                
                 if (response.status == 201) {
                     Vue.$toast.open({
                         message: 'Company created',
@@ -101,7 +108,6 @@ export default {
 
                 this.loading = false;
             } catch (err) {
-                console.log(err.response.data);
                 Vue.$toast.open({
                     message: 'Company not created, try again!',
                     type: 'error'
@@ -122,7 +128,7 @@ export default {
             this.$router.push('/login');
         }
         
-        if (this.user.account_type !== "Admin"){
+        if (this.user.info.account_type !== "Admin"){
             this.$router.push('/');
         }
     }
