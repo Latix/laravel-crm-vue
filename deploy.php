@@ -33,7 +33,7 @@ task('deploy:secrets', function () {
 host('13.245.82.226')
   ->hostname('13.245.82.226')
   ->stage('production')
-  ->user('root')
+  ->user('ubuntu')
   ->set('deploy_path', '/var/www/html/laravel-crm-vue');
 
 // host('staging.myapp.io')
