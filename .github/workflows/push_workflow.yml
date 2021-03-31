@@ -34,7 +34,7 @@ jobs:
       - name: Generate Key
         run: php artisan key:generate
       - name: Create database
-        run:  mysql -u root -p root -e 'create database crm_test;' --protocol=tcp
+        run:  mysql -u root -p root -h 127.0.0.1 -e 'create database crm_test;' --protocol=tcp
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: mysql
