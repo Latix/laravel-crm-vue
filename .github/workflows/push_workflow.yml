@@ -77,28 +77,28 @@ jobs:
     needs: [build-js-production, app-tests]
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v1
-      - name: Fetch built assets from Artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: assets
-          path: public
-      - name: Setup PHP
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: 7.3
-          extensions: mbstring, bcmath
-      - name: Composer install
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-      - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: Deploy to PRODUCTION Server
-        env:
-          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
-        run: dep deploy production --tag=${{ env.GITHUB_REF }} -vvv
+
+    - name: Checkout
+
+      uses: actions/checkout@v2
+
+    - name: Deployment
+
+      uses: appleboy/ssh-action@main
+
+      with:
+
+        host: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+        username: "ubuntu"
+
+        script: |
+
+          cd /var/www/html/laravel-crm-vue
+
+          git pull
   # deploy-staging:
   #   name: Deploy Project to STAGING Server
   #   runs-on: ubuntu-latest
