@@ -97,8 +97,9 @@ jobs:
         script: |
 
           cd /var/www/html/laravel-crm-vue
-
           git pull
+          npm install
+          npm run prod
   # deploy-staging:
   #   name: Deploy Project to STAGING Server
   #   runs-on: ubuntu-latest
