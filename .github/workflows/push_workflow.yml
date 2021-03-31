@@ -18,8 +18,6 @@ jobs:
         ports:
           - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      - name: Create database
-        run:  mysql -u root -p root -e 'create database crm_test;'
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
@@ -35,6 +33,8 @@ jobs:
         run: npm install
       - name: Generate Key
         run: php artisan key:generate
+      - name: Create database
+        run:  mysql -u root -p root -e 'create database crm_test;'
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: mysql
@@ -44,7 +44,6 @@ jobs:
           DB_USER: root
           DB_PASSWORD: root
         run: |
-          php artisan migrate
           vendor/bin/phpunit
       #- name: Execute tests (Unit and Feature tests) via JEST
         #run: node_modules/.bin/jest
